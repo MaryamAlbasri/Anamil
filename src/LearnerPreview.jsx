@@ -1,7 +1,8 @@
 
 import LessonDetails from "./pages/learner/LessonDetails";
-import LessonPayment from "./pages/learner/LessonPayment";
+import BookingSlotTaken from "./pages/learner/BookingSlotTaken";
 import BookingSuccess from "./pages/learner/BookingSuccess";
+import LessonPayment from "./pages/learner/LessonPayment";
 import PaymentFailed from "./pages/learner/PaymentFailed";
 
 function LearnerPreview() {
@@ -9,11 +10,14 @@ function LearnerPreview() {
   const screen = params.get("screen");
 
   switch (screen) {
-    case "payment":
-      return <LessonPayment />;
+    case "slot-taken":
+      return <BookingSlotTaken />;
 
     case "booking-success":
       return <BookingSuccess />;
+
+    case "payment":
+      return <LessonPayment />;
 
     case "payment-failed":
       return <PaymentFailed />;

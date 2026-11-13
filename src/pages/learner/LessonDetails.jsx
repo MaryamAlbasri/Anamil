@@ -260,28 +260,52 @@ function LessonDetails() {
             placeholder="e.g. I am left-handed"
           />
 
-          <button
+
+            <button
             type="button"
             onClick={() => {
-            sessionStorage.setItem(
+                const selectedSlot = lesson.availableSlots.find(
+                (slot) =>
+                    slot.date === selectedDate &&
+                    slot.time === selectedTime
+                );
+
+                sessionStorage.setItem(
                 "pendingBooking",
                 JSON.stringify({
-                lessonId: lesson.id,
-                date: selectedDate,
-                time: selectedTime,
-                note: note,
-                price: lesson.price
+                    lessonId: lesson.id,
+                    date: selectedDate,
+                    time: selectedTime,
+                    note: note,
+                    price: lesson.price
                 })
-            );
+                );
 
-            window.location.href = "/learner-preview.html?screen=payment";
+                // Demo: simulate a slot becoming unavailable
+                const simulateSlotTaken =
+                sessionStorage.getItem("simulateSlotTaken") === "true";
+
+                if (
+                !selectedSlot ||
+                selectedSlot.seatsLeft === 0 ||
+                simulateSlotTaken
+                ) {
+                sessionStorage.removeItem("simulateSlotTaken");
+
+                window.location.href =
+                    "/learner-preview.html?screen=slot-taken";
+                return;
+                }
+
+                window.location.href =
+                "/learner-preview.html?screen=payment";
             }}
             disabled={!selectedDate || !selectedTime}
             className="bg-black text-white p-3 rounded w-full disabled:opacity-50"
-          >
-
+            >
             Continue to Payment
-          </button>
+            </button>
+
         </Card>
 
       </div>
