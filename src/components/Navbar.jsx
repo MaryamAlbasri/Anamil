@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const crafts = ['Pottery', 'Weaving', 'Sewing', 'Photography', 'Calligraphy', 'Woodwork']
-
+import crafts from '../data/crafts'
 export default function Navbar() {
   const [open, setOpen] = useState(false)
 
@@ -42,12 +41,16 @@ export default function Navbar() {
           <span>🔍</span>
         </Link>
       </div>
-
-      <nav className="flex gap-6 overflow-x-auto border-b border-cream px-6 py-4 text-ink md:justify-center md:gap-10">
-        {crafts.map((c) => (
-          <Link key={c} to={`/browse?craft=${c.toLowerCase()}`} className="whitespace-nowrap">{c}</Link>
+      
+      <nav className="flex gap-6 overflow-x-auto border-b border-cream px-6 py-4 text-ink md:justify-center md:gap-8">
+        {crafts.slice(0, 7).map((c) => (
+          <Link key={c.id} to={`/browse?craft=${c.id}`} className="whitespace-nowrap">
+            {c.name}
+          </Link>
         ))}
-        <Link to="/browse" className="text-clay">Shop</Link>
+        <Link to="/browse" className="whitespace-nowrap font-medium text-clay">
+          All hobbies →
+        </Link>
       </nav>
     </header>
   )
