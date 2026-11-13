@@ -1,104 +1,85 @@
-
+import { Link } from "react-router-dom";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import { getLessonById } from "../../data/lessons";
-import Card from "../../components/Card";
 
 function BookingSuccess() {
-  const booking = JSON.parse(
-    sessionStorage.getItem("pendingBooking") || "null"
-  );
+  const booking = JSON.parse(sessionStorage.getItem("pendingBooking") || "null");
+  const lesson = booking ? getLessonById(booking.lessonId) : null;
 
-  const lesson = booking
-    ? getLessonById(booking.lessonId)
-    : null;
+  // Small helper so each summary row looks the same
+  const Row = ({ label, value }) => (
+    <div className="flex justify-between gap-4">
+      <span className="text-muted">{label}</span>
+      <span className="text-right">{value}</span>
+    </div>
+  );
 
   if (!booking || !lesson) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-muted">
-          No booking found.
-        </p>
-      </div>
+      <>
+        <Navbar />
+        <main className="flex min-h-[70vh] items-center justify-center bg-cream px-6 py-12 text-center">
+          <div>
+            <h1 className="font-serif text-4xl italic text-ink">No booking found</h1>
+            <Link to="/browse" className="mt-6 inline-block rounded-full bg-clay px-6 py-3 font-medium text-white">
+              Find a teacher
+            </Link>
+          </div>
+        </main>
+        <Footer />
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-cream flex items-center justify-center p-6">
-      <Card className="w-full max-w-lg text-center">
+    <>
+      <Navbar />
 
-        <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-green-700 text-4xl">
-          ✓
-        </div>
-
-        <h1 className="text-2xl font-bold mb-3">
-          Booking request sent!
-        </h1>
-
-        <p className="text-muted mb-6">
-          Your booking request has been sent successfully.
-          The craftsperson will review your request
-          and confirm your booking soon.
-        </p>
-
-        <div className="bg-cream rounded-xl p-5 text-left space-y-3 mb-6">
-          <h2 className="text-lg font-semibold mb-3">
-            Booking Summary
-          </h2>
-
-          <p>
-            <strong>Lesson:</strong> {lesson.title}
-          </p>
-
-          <p>
-            <strong>Craftsperson:</strong>{" "}
-            {lesson.craftspersonName}
-          </p>
-
-          <p>
-            <strong>Date:</strong> {booking.date}
-          </p>
-
-          <p>
-            <strong>Time:</strong> {booking.time}
-          </p>
-
-          <p>
-            <strong>Location:</strong> {lesson.location}
-          </p>
-
-          <p>
-            <strong>Amount:</strong> {lesson.price} SAR
-          </p>
-
-          <div className="border-t pt-3">
-            <span className="inline-block rounded-full bg-yellow-100 px-3 py-1 text-sm font-medium text-yellow-800">
-              Pending confirmation
-            </span>
+      <main className="flex justify-center bg-cream px-6 py-12">
+        <div className="w-full max-w-lg rounded-3xl bg-white p-8 text-center">
+          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-3xl text-green-700">
+            ✓
           </div>
+
+          <h1 className="mb-3 font-serif text-4xl italic text-ink">Booking request sent!</h1>
+          <p className="mb-6 text-muted">
+            {lesson.craftspersonName} will review your request and confirm it soon.
+          </p>
+
+          <div className="mb-6 space-y-3 rounded-2xl bg-cream p-5 text-left text-sm text-ink">
+            <p className="font-medium">{lesson.title}</p>
+            <Row label="Teacher" value={lesson.craftspersonName} />
+            <Row label="Date" value={booking.date} />
+            <Row label="Time" value={booking.time} />
+            <Row label="Location" value={lesson.location} />
+            <div className="flex items-center justify-between border-t border-blush pt-3">
+              <span className="rounded-full bg-gold/30 px-3 py-1 text-xs font-medium text-ink">Pending confirmation</span>
+              <span className="text-base font-medium text-clay">{lesson.price} SAR</span>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link
+              to="/my-bookings"
+              className="flex-1 rounded-full bg-clay py-3 text-sm font-medium text-white hover:opacity-90"
+            >
+              Go to my bookings
+            </Link>
+            <Link
+              to={`/lessons/${lesson.id}/checklist`}
+              className="flex-1 rounded-full border border-ink py-3 text-sm font-medium text-ink hover:bg-cream"
+            >
+              See what to buy
+            </Link>
+          </div>
+
+          <p className="mt-5 text-xs text-muted">Demo booking. No real payment was processed.</p>
         </div>
+      </main>
 
-        <p className="text-sm text-muted mb-5">
-          This is a demo booking.
-          No real payment has been processed.
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-3">
-          <a
-            href="/my-bookings"
-            className="flex-1 rounded-lg bg-clay px-4 py-3 text-sm font-medium text-white hover:bg-gray-800"
-          >
-            Go to My Bookings
-          </a>
-
-          <a
-            href={`/lessons/${lesson.id}/checklist`}
-            className="flex-1 rounded-lg border border-gray-300 px-4 py-3 text-sm font-medium hover:bg-gray-100"
-          >
-            See What to Buy
-          </a>
-        </div>
-
-      </Card>
-    </div>
+      <Footer />
+    </>
   );
 }
 
