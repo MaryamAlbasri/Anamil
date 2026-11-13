@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import Sidebar from '../components/Sidebar'
-import craftspeople from '../data/craftspeople'
+import Sidebar from '../../components/Sidebar'
+import craftspeople from '../../data/craftspeople'
 
 export const adminLinks = [
   { to: '/admin/verification', label: 'Verification' },

@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import craftspeople from '../data/craftspeople'
-import lessons from '../data/lessons'
+import Navbar from '../../components/Navbar'
+import Footer from '../../components/Footer'
+import craftspeople from '../../data/craftspeople'
+import lessons from '../../data/lessons'
 
 export default function CraftspersonProfile() {
   const { id } = useParams()
