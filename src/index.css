@@ -10,3 +10,75 @@
   --font-sans: "DM Sans", sans-serif;
   --font-serif: "Instrument Serif", serif;
 }
+
+
+
+/* AI Assistance: ChatGPT helped style the shared
+   Button and Input components for Anamil. */
+
+/* Reusable Button */
+.anamil-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.anamil-btn--primary {
+  background-color: var(--color-clay);
+  color: white;
+}
+
+.anamil-btn--primary:hover {
+  background-color: #8c442e;
+}
+
+.anamil-btn--secondary {
+  background-color: var(--color-blush);
+  color: var(--color-ink);
+}
+
+.anamil-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Reusable Input */
+.anamil-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.anamil-input-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.anamil-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: white;
+  color: var(--color-ink);
+}
+
+.anamil-input:focus {
+  outline: 2px solid var(--color-clay);
+  outline-offset: 1px;
+}
+
+.anamil-input-error {
+  border-color: #dc2626;
+}
+
+.anamil-error-message {
+  color: #dc2626;
+  font-size: 12px;
+}

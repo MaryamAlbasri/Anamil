@@ -2,9 +2,10 @@
 export const lessons = [
   {
     id: 1,
-    title: "Wheel Throwing for Beginners",
-    description: "Learn the basics of pottery.",
+    teacherId: 1,
     craftspersonId: 1,
+    title: "Wheel throwing for beginners",
+    description: "Learn the basics of pottery.",
     craftspersonName: "Noura Alqahtani",
     level: "Beginner",
     maxLearners: 6,
@@ -14,7 +15,6 @@ export const lessons = [
     location: "Al Khobar",
     rating: 4.8,
     image: "/images/pottery.jpg",
-
     availableSlots: [
       {
         date: "2026-10-15",
@@ -32,6 +32,46 @@ export const lessons = [
         seatsLeft: 0
       }
     ]
+  },
+  {
+    id: 2,
+    teacherId: 1,
+    title: "Hand-building: bowls and cups",
+    level: "Beginner",
+    duration: "2 hours",
+    price: 180
+  },
+  {
+    id: 3,
+    teacherId: 1,
+    title: "Glazing and finishing",
+    level: "Intermediate",
+    duration: "3 hours",
+    price: 200
+  },
+  {
+    id: 4,
+    teacherId: 2,
+    title: "Intro to loom weaving",
+    level: "Beginner",
+    duration: "2 hours",
+    price: 180
+  },
+  {
+    id: 5,
+    teacherId: 3,
+    title: "Arabic calligraphy basics",
+    level: "Beginner",
+    duration: "1.5 hours",
+    price: 120
+  },
+  {
+    id: 6,
+    teacherId: 4,
+    title: "Camera basics: shoot in manual",
+    level: "Beginner",
+    duration: "2 hours",
+    price: 200
   }
 ];
 
@@ -41,5 +81,4 @@ export const getLessonById = (id) => {
   );
 };
 
-// Supports default imports from the main application.
 export default lessons;

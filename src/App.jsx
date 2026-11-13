@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 // Maryam – Discovery + Admin
 import Home from './pages/Home'
 import Browse from './pages/Browse'
+import HowItWorksPage from './pages/HowItWorksPage'
 import CraftspersonProfile from './pages/CraftspersonProfile'
 import AiFinder from './pages/AiFinder'
 import About from './pages/About'
@@ -47,6 +48,7 @@ export default function App() {
       <Route path="/admin/verification" element={<AdminVerification />} />
       <Route path="/admin/reports" element={<AdminReports />} />
       <Route path="/admin/crafts" element={<AdminCrafts />} />
+      <Route path="/how-it-works" element={<HowItWorksPage />} />
 
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
