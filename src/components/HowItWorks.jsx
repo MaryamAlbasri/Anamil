@@ -24,7 +24,7 @@ const steps = [
     bg: 'bg-[#E4E1F0]',
     preview: (
       <div className="flex items-center gap-3 rounded-2xl bg-white p-3 shadow">
-        <img src="/images/pottery.jpg" alt="" className="h-12 w-12 rounded-full object-cover" />
+        <img src="/images/pottery.png" alt="" className="h-12 w-12 rounded-full object-cover" />
         <div className="flex-1 text-sm">
           <p className="font-medium">Noura Alqahtani</p>
           <p className="text-xs text-muted">Pottery · 2 km away</p>

@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 const slides = [
-  { img: '/images/weaving.jpg', word: 'weaving', caption: 'Lina · Weaving · Amman' },
-  { img: '/images/sewing.jpg', word: 'sewing', caption: 'Huda · Sewing · Riyadh' },
-  { img: '/images/photography.jpg', word: 'photography', caption: 'Sara · Photography · Dubai' },
-  { img: '/images/pottery.jpg', word: 'pottery', caption: 'Noura · Pottery · Riyadh' },
-  { img: '/images/calligraphy.jpg', word: 'calligraphy', caption: 'Omar · Calligraphy · Jeddah' },
-  { img: '/images/woodwork.jpg', word: 'woodwork', caption: 'Khalid · Woodwork · Dammam' },
+  { img: '/images/weaving.png', word: 'weaving', caption: 'Lina · Weaving · Amman' },
+  { img: '/images/sewing.png', word: 'sewing', caption: 'Huda · Sewing · Riyadh' },
+  { img: '/images/photography.png', word: 'photography', caption: 'Sara · Photography · Dubai' },
+  { img: '/images/pottery.png', word: 'pottery', caption: 'Noura · Pottery · Riyadh' },
+  { img: '/images/calligraphy.png', word: 'calligraphy', caption: 'Omar · Calligraphy · Jeddah' },
+  { img: '/images/woodwork.png', word: 'woodwork', caption: 'Khalid · Woodwork · Dammam' },
 ]
 
 export default function HeroSlideshow() {
