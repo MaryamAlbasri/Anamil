@@ -6,15 +6,32 @@ function PaymentFailed() {
     sessionStorage.getItem("pendingBooking") || "null"
   );
 
-  const handleRetry = () => {
-    window.location.href =
-      "/learner-preview.html?screen=payment";
-  };
 
-  const handleBack = () => {
-    window.location.href =
-      "/learner-preview.html";
-  };
+    const handleRetry = () => {
+    const source = sessionStorage.getItem("paymentFailedSource");
+
+    if (source === "order") {
+        window.location.href =
+        "/learner-preview.html?screen=order-payment";
+    } else {
+        window.location.href =
+        "/learner-preview.html?screen=payment";
+    }
+    };
+
+
+    const handleBack = () => {
+    const source = sessionStorage.getItem("paymentFailedSource");
+
+    if (source === "order") {
+        window.location.href =
+        "/learner-preview.html?screen=cart";
+    } else {
+        window.location.href =
+        "/learner-preview.html";
+    }
+    };
+
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
@@ -80,7 +97,9 @@ function PaymentFailed() {
             onClick={handleBack}
             className="flex-1 rounded-lg border border-gray-300 px-4 py-3 text-sm font-medium hover:bg-gray-100"
           >
-            Back to Lesson
+            {sessionStorage.getItem("paymentFailedSource") === "order"
+                ? "Back to Cart"
+                : "Back to Lesson"}
           </button>
         </div>
 

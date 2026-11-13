@@ -34,6 +34,8 @@ function LessonPayment() {
     const paymentFailed = cardNumber.replace(/\s/g, "").endsWith("0000");
 
     if (paymentFailed) {
+        sessionStorage.setItem("paymentFailedSource", "lesson");
+        
         window.location.href =
         "/learner-preview.html?screen=payment-failed";
     } else {
