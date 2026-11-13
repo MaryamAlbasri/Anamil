@@ -293,12 +293,12 @@ function LessonDetails() {
                 sessionStorage.removeItem("simulateSlotTaken");
 
                 window.location.href =
-                    "/learner-preview.html?screen=slot-taken";
+                    "/slot-taken";
                 return;
                 }
 
                 window.location.href =
-                "/learner-preview.html?screen=payment";
+                `/lessons/${lesson.id}/payment`;
             }}
             disabled={!selectedDate || !selectedTime}
             className="bg-black text-white p-3 rounded w-full disabled:opacity-50"

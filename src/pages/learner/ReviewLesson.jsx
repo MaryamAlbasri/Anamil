@@ -6,8 +6,11 @@ import Card from "../../components/Card";
 const STORAGE_KEY = "anamil-lesson-reviews";
 
 function ReviewLesson() {
-  const params = new URLSearchParams(window.location.search);
-  const bookingId = Number(params.get("id"));
+
+    const bookingId = Number(
+    window.location.pathname.split("/")[2]
+    );
+
   const booking = getBookingById(bookingId);
 
   const [rating, setRating] = useState(0);
@@ -69,7 +72,7 @@ function ReviewLesson() {
           Booking not found
         </h1>
         <a
-          href="/learner-preview.html?screen=my-bookings"
+          href="/my-bookings"
           className="mt-5 inline-block underline"
         >
           Back to My Bookings
@@ -88,7 +91,7 @@ function ReviewLesson() {
           You can review a lesson only after it is completed.
         </p>
         <a
-          href="/learner-preview.html?screen=my-bookings"
+          href="/my-bookings"
           className="mt-5 inline-block underline"
         >
           Back to My Bookings
@@ -115,7 +118,7 @@ function ReviewLesson() {
               : "You have already reviewed this lesson."}
           </p>
           <a
-            href="/learner-preview.html?screen=my-bookings"
+            href="/my-bookings"
             className="mt-6 inline-block rounded-lg bg-black px-5 py-3 text-white"
           >
             Back to My Bookings
@@ -129,7 +132,7 @@ function ReviewLesson() {
     <main className="min-h-screen bg-gray-50 px-4 py-10">
       <div className="mx-auto max-w-xl">
         <a
-          href={`/learner-preview.html?screen=booking-details&id=${bookingId}`}
+          href={`/my-bookings/${bookingId}`}
           className="text-sm text-gray-600 underline"
         >
           ← Back to Booking Details

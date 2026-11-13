@@ -23,26 +23,43 @@ function getCancelledIds() {
   }
 }
 
+
 function getLessonStart(booking) {
-  const startTime = booking.time.split("-")[0].trim();
+  const parts = booking.time.split("-");
+  const startTime = parts[0].trim();
+  const endTime = parts[1]?.trim() || "";
+
+  const periodMatch = endTime.match(/(AM|PM)$/i);
+  const period = periodMatch?.[1];
+
   const match = startTime.match(
-    /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i
+    /^(\d{1,2}):(\d{2})(?:\s*(AM|PM))?$/i
   );
 
   if (!match) return null;
 
   let hours = Number(match[1]);
   const minutes = Number(match[2]);
-  const period = match[3].toUpperCase();
+  const startPeriod = match[3] || period;
 
-  if (period === "PM" && hours !== 12) hours += 12;
-  if (period === "AM" && hours === 12) hours = 0;
+  if (!startPeriod) return null;
+
+  if (startPeriod.toUpperCase() === "PM" && hours !== 12) {
+    hours += 12;
+  }
+
+  if (startPeriod.toUpperCase() === "AM" && hours === 12) {
+    hours = 0;
+  }
 
   const date = new Date(`${booking.date}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return null;
+
   date.setHours(hours, minutes, 0, 0);
 
   return date;
 }
+
 
 function MyBookings() {
   const [activeTab, setActiveTab] = useState("upcoming");
@@ -58,8 +75,17 @@ function MyBookings() {
       : booking.status
   }));
 
-  const isUpcoming = (booking) =>
-    ["Pending", "Confirmed"].includes(booking.status);
+  
+    const isUpcoming = (booking) => {
+    const lessonStart = getLessonStart(booking);
+
+    return (
+        ["Pending", "Confirmed"].includes(booking.status) &&
+        lessonStart !== null &&
+        lessonStart.getTime() > Date.now()
+    );
+    };
+
 
   const upcomingBookings = allBookings.filter(isUpcoming);
   const pastBookings = allBookings.filter(
@@ -101,7 +127,7 @@ function MyBookings() {
     }
 
     window.location.href =
-      `/learner-preview.html?screen=cancel-booking&id=${booking.id}`;
+      `/my-bookings/${booking.id}/cancel`;
   };
 
   return (
@@ -191,7 +217,7 @@ function MyBookings() {
                     </span>
 
                     <a
-                      href={`/learner-preview.html?screen=booking-details&id=${booking.id}`}
+                      href={`/my-bookings/${booking.id}`}
                       className="rounded-lg border border-gray-300 px-4 py-2 text-sm"
                     >
                       View details
@@ -209,7 +235,7 @@ function MyBookings() {
 
                     {booking.status === "Completed" && (
                       <a
-                        href={`/learner-preview.html?screen=review-lesson&id=${booking.id}`}
+                        href={`/my-bookings/${booking.id}/review`}
                         className="rounded-lg bg-black px-4 py-2 text-sm font-medium text-white"
                       >
                         Write review

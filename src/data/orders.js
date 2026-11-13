@@ -23,3 +23,5 @@ export const getOrderById = (id) => {
   );
 };
 
+// Supports default imports from the main application.
+export default orders;

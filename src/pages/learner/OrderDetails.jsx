@@ -6,8 +6,11 @@ const ORDERS_KEY = "anamil-orders";
 function OrderDetails() {
   const [order] = useState(() => {
     try {
-      const params = new URLSearchParams(window.location.search);
-      const orderId = params.get("id");
+      
+        const orderId = decodeURIComponent(
+        window.location.pathname.split("/")[2] || ""
+        );
+
 
       const savedOrders = JSON.parse(
         localStorage.getItem(ORDERS_KEY) || "[]"
@@ -33,10 +36,16 @@ function OrderDetails() {
     }
   });
 
-  const goTo = (screen) => {
-    window.location.href =
-      `/learner-preview.html?screen=${screen}`;
-  };
+
+    const goTo = (screen) => {
+    const routes = {
+        "order-confirmation": "/order-confirmation",
+        cart: "/cart",
+        browse: "/browse"
+    };
+
+    window.location.href = routes[screen] || "/browse";
+    };
 
   if (!order) {
     return (

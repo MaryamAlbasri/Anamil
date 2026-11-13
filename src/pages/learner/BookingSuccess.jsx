@@ -83,14 +83,14 @@ function BookingSuccess() {
 
         <div className="flex flex-col sm:flex-row gap-3">
           <a
-            href="/learner-preview.html?screen=my-bookings"
+            href="/my-bookings"
             className="flex-1 rounded-lg bg-black px-4 py-3 text-sm font-medium text-white hover:bg-gray-800"
           >
             Go to My Bookings
           </a>
 
           <a
-            href="/learner-preview.html?screen=what-to-buy"
+            href={`/lessons/${lesson.id}/checklist`}
             className="flex-1 rounded-lg border border-gray-300 px-4 py-3 text-sm font-medium hover:bg-gray-100"
           >
             See What to Buy

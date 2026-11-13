@@ -22,10 +22,16 @@ function OrderConfirmation() {
     }
   });
 
-  const goTo = (screen) => {
-    window.location.href =
-      `/learner-preview.html?screen=${screen}`;
-  };
+    const goTo = (screen) => {
+    const routes = {
+        cart: "/cart",
+        browse: "/browse",
+        "order-details": `/orders/${order?.id}`
+    };
+
+    window.location.href = routes[screen] || "/browse";
+    };
+
 
   if (!order) {
     return (
@@ -53,10 +59,12 @@ function OrderConfirmation() {
 
   const isPickup = order.deliveryMethod === "pickup";
 
-  const trackOrder = () => {
+
+    const trackOrder = () => {
     window.location.href =
-      `/learner-preview.html?screen=order-details&id=${encodeURIComponent(order.id)}`;
-  };
+        `/orders/${encodeURIComponent(order.id)}`;
+    };
+
 
   return (
     <main className="flex min-h-screen justify-center bg-gray-50 px-4 py-12">

@@ -52,3 +52,6 @@ export const getBookingById = (id) => {
     (booking) => booking.id === Number(id)
   );
 };
+
+// Supports imports used by the main application.
+export default bookings;

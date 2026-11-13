@@ -201,8 +201,7 @@ function Cart() {
       JSON.stringify(order)
     );
 
-    window.location.href =
-      "/learner-preview.html?screen=order-payment";
+    window.location.href = "/checkout/payment";
   };
 
   return (

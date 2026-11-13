@@ -7,30 +7,31 @@ function PaymentFailed() {
   );
 
 
+
+
     const handleRetry = () => {
     const source = sessionStorage.getItem("paymentFailedSource");
 
     if (source === "order") {
-        window.location.href =
-        "/learner-preview.html?screen=order-payment";
+        window.location.href = "/checkout/payment";
     } else {
         window.location.href =
-        "/learner-preview.html?screen=payment";
+        `/lessons/${booking?.lessonId || 1}/payment`;
     }
     };
-
 
     const handleBack = () => {
     const source = sessionStorage.getItem("paymentFailedSource");
 
     if (source === "order") {
-        window.location.href =
-        "/learner-preview.html?screen=cart";
+        window.location.href = "/cart";
     } else {
         window.location.href =
-        "/learner-preview.html";
+        `/lessons/${booking?.lessonId || 1}`;
     }
     };
+
+
 
 
   return (

@@ -12,7 +12,8 @@ function BookingSlotTaken() {
     : null;
 
   const handleChooseAnotherSlot = () => {
-    window.location.href = "/learner-preview.html";
+    window.location.href =
+  `/lessons/${booking?.lessonId || 1}`;
   };
 
   return (

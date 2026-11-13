@@ -97,7 +97,7 @@ function WhatToBuy() {
     <div className="min-h-screen bg-gray-50 px-4 py-8">
       <main className="mx-auto max-w-3xl">
         <a
-          href="/learner-preview.html"
+          href="/lessons/1"
           className="text-sm text-gray-600 underline"
         >
           ← Back to lesson
@@ -196,7 +196,7 @@ function WhatToBuy() {
         </p>
 
         <a
-          href="/learner-preview.html"
+          href="/lessons/1"
           className="mt-7 block rounded-lg bg-black px-5 py-3 text-center font-medium text-white hover:bg-gray-800"
         >
           Back to Lesson Details
@@ -207,3 +207,4 @@ function WhatToBuy() {
 }
 
 export default WhatToBuy;
+

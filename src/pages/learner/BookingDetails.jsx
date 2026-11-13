@@ -12,8 +12,7 @@ const statusStyles = {
 function BookingDetails() {
   const [showMore, setShowMore] = useState(false);
 
-  const params = new URLSearchParams(window.location.search);
-  const bookingId = Number(params.get("id"));
+    const bookingId = window.location.pathname.split("/")[2];
 
   const booking = getBookingById(bookingId);
 
@@ -57,7 +56,7 @@ function BookingDetails() {
           </p>
 
           <a
-            href="/learner-preview.html?screen=my-bookings"
+            href="/my-bookings"
             className="mt-6 inline-block rounded-lg bg-black px-5 py-3 text-white"
           >
             Back to My Bookings
@@ -71,7 +70,7 @@ function BookingDetails() {
     <main className="min-h-screen bg-gray-50 px-4 py-8">
       <div className="mx-auto max-w-3xl">
         <a
-          href="/learner-preview.html?screen=my-bookings"
+          href="/my-bookings"
           className="text-sm text-gray-600 underline"
         >
           ← Back to My Bookings
@@ -177,7 +176,7 @@ function BookingDetails() {
             {["Pending", "Confirmed"].includes(status) &&
               booking.canCancel && (
                 <a
-                  href={`/learner-preview.html?screen=cancel-booking&id=${booking.id}`}
+                  href={`/my-bookings/${booking.id}/cancel`}
                   className="rounded-lg border border-red-300 px-5 py-3 text-sm font-medium text-red-600"
                 >
                   Cancel booking
@@ -186,7 +185,7 @@ function BookingDetails() {
 
             {status === "Completed" && (
               <a
-                href={`/learner-preview.html?screen=review-lesson&id=${booking.id}`}
+                href={`/my-bookings/${booking.id}/review`}
                 className="rounded-lg bg-black px-5 py-3 text-sm font-medium text-white"
               >
                 Write a review
@@ -194,7 +193,7 @@ function BookingDetails() {
             )}
 
             <a
-              href="/learner-preview.html?screen=my-bookings"
+              href="/my-bookings"
               className="rounded-lg border border-gray-300 px-5 py-3 text-sm font-medium"
             >
               My Bookings

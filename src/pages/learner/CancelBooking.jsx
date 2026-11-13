@@ -24,8 +24,11 @@ const canCancelBooking = (booking) => {
 };
 
 function CancelBooking() {
-  const params = new URLSearchParams(window.location.search);
-  const bookingId = Number(params.get("id"));
+  
+    const bookingId = Number(
+    window.location.pathname.split("/")[2]
+    );
+
   const booking = getBookingById(bookingId);
 
   const [isModalOpen, setIsModalOpen] = useState(true);
@@ -47,10 +50,11 @@ function CancelBooking() {
   const cancellationAllowed =
     booking && !alreadyCancelled && canCancelBooking(booking);
 
-  const handleBack = () => {
-    window.location.href =
-      "/learner-preview.html?screen=my-bookings";
-  };
+  
+    const handleBack = () => {
+    window.location.href = "/my-bookings";
+    };
+
 
   const handleCancel = () => {
     if (!cancellationAllowed) return;

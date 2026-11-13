@@ -26,8 +26,8 @@ function LessonPayment() {
 
 
     const handlePayment = () => {
-    if (paymentMethod !== "card" || !isCardValid) {
-        return;
+        if (paymentMethod === "card" && !isCardValid) {
+            return;
     }
 
     // Demo only: no real payment is processed.
@@ -35,12 +35,12 @@ function LessonPayment() {
 
     if (paymentFailed) {
         sessionStorage.setItem("paymentFailedSource", "lesson");
-        
+
         window.location.href =
-        "/learner-preview.html?screen=payment-failed";
+        "/payment-failed";
     } else {
         window.location.href =
-        "/learner-preview.html?screen=booking-success";
+        "/booking-success";
     }
     };
 
@@ -51,7 +51,7 @@ function LessonPayment() {
       <div className="max-w-xl mx-auto p-8">
         <p>No booking selected.</p>
         <a
-          href="/learner-preview.html"
+          href={`/lessons/${booking?.lessonId || 1}`}
           className="underline"
         >
           Back to lesson
@@ -166,7 +166,7 @@ function LessonPayment() {
           </button>
 
           <a
-            href="/learner-preview.html"
+            href={`/lessons/${lesson.id}`}
             className="block text-sm underline mt-4"
           >
             Back to lesson

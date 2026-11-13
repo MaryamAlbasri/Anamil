@@ -23,10 +23,21 @@ function OrderPayment() {
   const [saveCard, setSaveCard] = useState(false);
   const [error, setError] = useState("");
 
-  const goTo = (screen) => {
-    window.location.href =
-      `/learner-preview.html?screen=${screen}`;
-  };
+  
+
+
+    const goTo = (screen) => {
+    const routes = {
+        cart: "/cart",
+        "payment-failed": "/payment-failed",
+        "order-confirmation": "/order-confirmation"
+    };
+
+    window.location.href = routes[screen] || "/cart";
+    };
+
+
+
 
   const handlePayment = () => {
     setError("");
