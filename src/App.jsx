@@ -1,17 +1,16 @@
 import { Routes, Route } from 'react-router-dom'
-
-// Maryam – Discovery + Admin
+// Maryam – Discovery & Admin
 import Home from './pages/discovery/Home'
 import Browse from './pages/discovery/Browse'
 import HowItWorksPage from './pages/discovery/HowItWorksPage'
 import CraftspersonProfile from './pages/discovery/CraftspersonProfile'
 import AiFinder from './pages/discovery/AiFinder'
 import About from './pages/discovery/About'
+import NotFound from './pages/discovery/NotFound'
 import AdminVerification from './pages/admin/AdminVerification'
 import AdminReports from './pages/admin/AdminReports'
 import AdminCrafts from './pages/admin/AdminCrafts'
-import NotFound from './pages/discovery/NotFound'
-// Walaa – Accounts + Craftsperson
+// Walaa – Accounts & Craftsperson
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
 import ResetPassword from './pages/ResetPassword'
@@ -21,14 +20,13 @@ import BookingRequests from './pages/BookingRequests'
 import Products from './pages/Products'
 import Orders from './pages/Orders'
 // Hawra – Learner
-import LessonDetails from './pages/LessonDetails'
-import LessonPayment from './pages/LessonPayment'
-import Checklist from './pages/Checklist'
-import MyBookings from './pages/MyBookings'
-import Cart from './pages/Cart'
-import OrderPayment from './pages/OrderPayment'
-import OrderConfirmation from './pages/OrderConfirmation'
-
+import LessonDetails from './pages/learner/LessonDetails'
+import LessonPayment from './pages/learner/LessonPayment'
+import Checklist from './pages/learner/WhatToBuy'
+import MyBookings from './pages/learner/MyBookings'
+import Cart from './pages/learner/Cart'
+import OrderPayment from './pages/learner/OrderPayment'
+import OrderConfirmation from './pages/learner/OrderConfirmation'
 import BookingSuccess from './pages/learner/BookingSuccess'
 import BookingSlotTaken from './pages/learner/BookingSlotTaken'
 import PaymentFailed from './pages/learner/PaymentFailed'
