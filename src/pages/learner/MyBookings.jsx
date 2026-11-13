@@ -2,26 +2,54 @@
 import { useState } from "react";
 import { bookings } from "../../data/bookings";
 
+const CANCELLED_KEY = "anamil-cancelled-bookings";
+
 const statusStyles = {
   Pending: "bg-yellow-100 text-yellow-800",
-  Confirmed: "bg-green-100 text-green-800",
-  Completed: "bg-gray-100 text-gray-700",
-  Cancelled: "bg-red-100 text-red-700"
+  Confirmed: "bg-gray-200 text-gray-800",
+  Completed: "bg-gray-200 text-gray-800",
+  Cancelled: "bg-red-100 text-red-700",
+  Declined: "bg-gray-200 text-gray-700"
 };
+
+function getCancelledIds() {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem(CANCELLED_KEY) || "[]"
+    );
+    return Array.isArray(saved) ? saved : [];
+  } catch {
+    return [];
+  }
+}
+
+function getLessonStart(booking) {
+  const startTime = booking.time.split("-")[0].trim();
+  const match = startTime.match(
+    /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i
+  );
+
+  if (!match) return null;
+
+  let hours = Number(match[1]);
+  const minutes = Number(match[2]);
+  const period = match[3].toUpperCase();
+
+  if (period === "PM" && hours !== 12) hours += 12;
+  if (period === "AM" && hours === 12) hours = 0;
+
+  const date = new Date(`${booking.date}T00:00:00`);
+  date.setHours(hours, minutes, 0, 0);
+
+  return date;
+}
 
 function MyBookings() {
   const [activeTab, setActiveTab] = useState("upcoming");
-
-  const [cancelledIds] = useState(() => {
-    try {
-      const saved = JSON.parse(
-        localStorage.getItem("anamil-cancelled-bookings") || "[]"
-      );
-      return Array.isArray(saved) ? saved : [];
-    } catch {
-      return [];
-    }
-  });
+  const [cancelledIds, setCancelledIds] = useState(
+    getCancelledIds
+  );
+  const [cancelErrorId, setCancelErrorId] = useState(null);
 
   const allBookings = bookings.map((booking) => ({
     ...booking,
@@ -33,14 +61,15 @@ function MyBookings() {
   const isUpcoming = (booking) =>
     ["Pending", "Confirmed"].includes(booking.status);
 
-  const visibleBookings = allBookings.filter((booking) =>
-    activeTab === "upcoming"
-      ? isUpcoming(booking)
-      : !isUpcoming(booking)
+  const upcomingBookings = allBookings.filter(isUpcoming);
+  const pastBookings = allBookings.filter(
+    (booking) => !isUpcoming(booking)
   );
 
-  const upcomingCount = allBookings.filter(isUpcoming).length;
-  const pastCount = allBookings.length - upcomingCount;
+  const visibleBookings =
+    activeTab === "upcoming"
+      ? upcomingBookings
+      : pastBookings;
 
   const formatDate = (date) =>
     new Date(`${date}T12:00:00`).toLocaleDateString(
@@ -52,6 +81,29 @@ function MyBookings() {
       }
     );
 
+  const handleCancelClick = (booking) => {
+    setCancelErrorId(null);
+
+    const lessonStart = getLessonStart(booking);
+
+    const hoursRemaining = lessonStart
+      ? (lessonStart.getTime() - Date.now()) /
+        (1000 * 60 * 60)
+      : -1;
+
+    if (
+      !booking.canCancel ||
+      !["Pending", "Confirmed"].includes(booking.status) ||
+      hoursRemaining <= 24
+    ) {
+      setCancelErrorId(booking.id);
+      return;
+    }
+
+    window.location.href =
+      `/learner-preview.html?screen=cancel-booking&id=${booking.id}`;
+  };
+
   return (
     <main className="min-h-screen bg-gray-50 px-4 py-8">
       <div className="mx-auto max-w-5xl">
@@ -61,13 +113,24 @@ function MyBookings() {
 
         <div className="mb-6 flex gap-6 border-b">
           {[
-            { id: "upcoming", label: "Upcoming", count: upcomingCount },
-            { id: "past", label: "Past", count: pastCount }
+            {
+              id: "upcoming",
+              label: "Upcoming",
+              count: upcomingBookings.length
+            },
+            {
+              id: "past",
+              label: "Past",
+              count: pastBookings.length
+            }
           ].map((tab) => (
             <button
               key={tab.id}
               type="button"
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => {
+                setActiveTab(tab.id);
+                setCancelErrorId(null);
+              }}
               className={`border-b-2 pb-3 text-sm font-medium ${
                 activeTab === tab.id
                   ? "border-black text-black"
@@ -90,33 +153,38 @@ function MyBookings() {
                 key={booking.id}
                 className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
               >
-                <div className="flex flex-col gap-5 sm:flex-row sm:justify-between">
+                <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex-1">
                     <h2 className="text-lg font-semibold">
                       {booking.lesson}
                     </h2>
 
                     <p className="mt-1 text-sm text-gray-600">
-                      {booking.craftsperson}
+                      {booking.craftsperson} ·{" "}
+                      {formatDate(booking.date)} ·{" "}
+                      {booking.time}
                     </p>
 
-                    <p className="mt-3 text-sm text-gray-600">
-                      {formatDate(booking.date)} · {booking.time}
-                    </p>
+                    {cancelErrorId === booking.id && (
+                      <p
+                        role="alert"
+                        className="mt-2 text-sm font-medium text-red-600"
+                      >
+                        Bookings can't be cancelled within
+                        24 hours of the lesson.
+                      </p>
+                    )}
 
-                    <p className="mt-1 text-sm text-gray-600">
+                    <p className="mt-2 text-sm text-gray-500">
                       {booking.location}
-                    </p>
-
-                    <p className="mt-1 text-sm font-medium">
-                      {booking.price} SAR
                     </p>
                   </div>
 
-                  <div className="flex flex-col items-start gap-3 sm:items-end">
+                  <div className="flex flex-wrap items-center gap-3">
                     <span
                       className={`rounded-full px-3 py-1 text-xs font-medium ${
-                        statusStyles[booking.status] || statusStyles.Pending
+                        statusStyles[booking.status] ||
+                        statusStyles.Pending
                       }`}
                     >
                       {booking.status}
@@ -124,26 +192,27 @@ function MyBookings() {
 
                     <a
                       href={`/learner-preview.html?screen=booking-details&id=${booking.id}`}
-                      className="rounded-lg border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50"
+                      className="rounded-lg border border-gray-300 px-4 py-2 text-sm"
                     >
                       View details
                     </a>
 
-                    {isUpcoming(booking) && booking.canCancel && (
-                      <a
-                        href={`/learner-preview.html?screen=cancel-booking&id=${booking.id}`}
-                        className="text-sm text-red-600 underline"
+                    {isUpcoming(booking) && (
+                      <button
+                        type="button"
+                        onClick={() => handleCancelClick(booking)}
+                        className="rounded-lg border border-gray-400 px-4 py-2 text-sm font-medium hover:bg-gray-100"
                       >
-                        Cancel booking
-                      </a>
+                        Cancel
+                      </button>
                     )}
 
                     {booking.status === "Completed" && (
                       <a
                         href={`/learner-preview.html?screen=review-lesson&id=${booking.id}`}
-                        className="text-sm font-medium underline"
+                        className="rounded-lg bg-black px-4 py-2 text-sm font-medium text-white"
                       >
-                        Write a review
+                        Write review
                       </a>
                     )}
                   </div>

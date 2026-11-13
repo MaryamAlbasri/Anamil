@@ -3,29 +3,73 @@ import { useState } from "react";
 import Modal from "../../components/Modal";
 import { getBookingById } from "../../data/bookings";
 
+const CANCELLED_KEY = "anamil-cancelled-bookings";
+
+// Demo policy: cancellation is allowed more than 24 hours
+// before the lesson starts.
+const canCancelBooking = (booking) => {
+  if (!["Pending", "Confirmed"].includes(booking.status)) {
+    return false;
+  }
+
+  if (!booking.canCancel) {
+    return false;
+  }
+
+  const lessonDate = new Date(`${booking.date}T00:00:00`);
+  const hoursRemaining =
+    (lessonDate.getTime() - Date.now()) / (1000 * 60 * 60);
+
+  return hoursRemaining > 24;
+};
+
 function CancelBooking() {
   const params = new URLSearchParams(window.location.search);
   const bookingId = Number(params.get("id"));
-
   const booking = getBookingById(bookingId);
 
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [isCancelled, setIsCancelled] = useState(false);
 
-  const handleKeepBooking = () => {
+  const [alreadyCancelled] = useState(() => {
+    try {
+      const saved = JSON.parse(
+        localStorage.getItem(CANCELLED_KEY) || "[]"
+      );
+      return Array.isArray(saved)
+        ? saved.includes(bookingId)
+        : false;
+    } catch {
+      return false;
+    }
+  });
+
+  const cancellationAllowed =
+    booking && !alreadyCancelled && canCancelBooking(booking);
+
+  const handleBack = () => {
     window.location.href =
       "/learner-preview.html?screen=my-bookings";
   };
 
   const handleCancel = () => {
-    const saved = JSON.parse(
-      localStorage.getItem("anamil-cancelled-bookings") || "[]"
-    );
+    if (!cancellationAllowed) return;
+
+    let saved = [];
+
+    try {
+      const stored = JSON.parse(
+        localStorage.getItem(CANCELLED_KEY) || "[]"
+      );
+      saved = Array.isArray(stored) ? stored : [];
+    } catch {
+      saved = [];
+    }
 
     const updated = [...new Set([...saved, bookingId])];
 
     localStorage.setItem(
-      "anamil-cancelled-bookings",
+      CANCELLED_KEY,
       JSON.stringify(updated)
     );
 
@@ -40,12 +84,48 @@ function CancelBooking() {
           Booking not found
         </h1>
 
-        <a
-          href="/learner-preview.html?screen=my-bookings"
-          className="mt-5 inline-block underline"
+        <button
+          type="button"
+          onClick={handleBack}
+          className="mt-5 underline"
         >
           Back to My Bookings
-        </a>
+        </button>
+      </main>
+    );
+  }
+
+  if (!cancellationAllowed && !isCancelled) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-gray-50 p-6">
+        <div className="w-full max-w-md rounded-xl bg-white p-8 text-center shadow-sm">
+          <div className="mb-4 text-4xl text-orange-500">
+            !
+          </div>
+
+          <h1 className="text-2xl font-bold">
+            Cancellation not allowed
+          </h1>
+
+          <p className="mt-4 text-gray-600">
+            {alreadyCancelled
+              ? "This booking has already been cancelled."
+              : "This booking cannot be cancelled because the cancellation period has ended or the booking is no longer eligible."}
+          </p>
+
+          <p className="mt-3 text-sm text-gray-500">
+            Demo cancellation policy: cancellations must
+            be made more than 24 hours before the lesson.
+          </p>
+
+          <button
+            type="button"
+            onClick={handleBack}
+            className="mt-6 w-full rounded-lg bg-black px-5 py-3 text-white"
+          >
+            Back to My Bookings
+          </button>
+        </div>
       </main>
     );
   }
@@ -54,7 +134,7 @@ function CancelBooking() {
     <main className="min-h-screen bg-gray-50 p-6">
       <Modal
         isOpen={isModalOpen}
-        onClose={handleKeepBooking}
+        onClose={handleBack}
         title="Cancel booking?"
       >
         <p className="mb-5 text-gray-600">
@@ -79,7 +159,7 @@ function CancelBooking() {
         <div className="flex flex-col gap-3 sm:flex-row">
           <button
             type="button"
-            onClick={handleKeepBooking}
+            onClick={handleBack}
             className="flex-1 rounded-lg border border-gray-300 px-4 py-3"
           >
             Keep booking
@@ -109,12 +189,13 @@ function CancelBooking() {
             Your booking has been cancelled successfully.
           </p>
 
-          <a
-            href="/learner-preview.html?screen=my-bookings"
-            className="mt-6 inline-block rounded-lg bg-black px-5 py-3 text-white"
+          <button
+            type="button"
+            onClick={handleBack}
+            className="mt-6 rounded-lg bg-black px-5 py-3 text-white"
           >
             Back to My Bookings
-          </a>
+          </button>
         </div>
       )}
     </main>
