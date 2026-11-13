@@ -123,17 +123,82 @@ function LessonDetails() {
           </h2>
 
           <label className="block mb-2">Select Date</label>
-          <input
-            type="date"
-            value={selectedDate}
-            
-            onChange={(e) => {
-            setSelectedDate(e.target.value);
-            setSelectedTime("");
-            }}
 
-            className="border rounded p-2 w-full mb-4"
-          />
+            <div className="mb-5">
+            <div className="flex items-center justify-between mb-4">
+                <button
+                type="button"
+                onClick={() =>
+                    setCalendarMonth(new Date(year, month - 1, 1))
+                }
+                aria-label="Previous month"
+                className="px-3 py-1 rounded hover:bg-gray-100"
+                >
+                ‹
+                </button>
+
+                <h3 className="font-semibold">
+                {calendarMonth.toLocaleDateString("en-US", {
+                    month: "long",
+                    year: "numeric"
+                })}
+                </h3>
+
+                <button
+                type="button"
+                onClick={() =>
+                    setCalendarMonth(new Date(year, month + 1, 1))
+                }
+                aria-label="Next month"
+                className="px-3 py-1 rounded hover:bg-gray-100"
+                >
+                ›
+                </button>
+            </div>
+
+            <div className="grid grid-cols-7 gap-2 text-center mb-2">
+                {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
+                <span key={index} className="text-xs text-gray-500">
+                    {day}
+                </span>
+                ))}
+            </div>
+
+            <div className="grid grid-cols-7 gap-2">
+                {calendarDays.map((day, index) => {
+                if (day === null) {
+                    return <span key={`empty-${index}`} />;
+                }
+
+                const date = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+                const isAvailable = availableDates.includes(date);
+                const isSelected = selectedDate === date;
+
+                return (
+                    <button
+                    key={date}
+                    type="button"
+                    disabled={!isAvailable}
+                    onClick={() => {
+                        setSelectedDate(date);
+                        setSelectedTime("");
+                    }}
+                    className={`aspect-square rounded-full text-sm transition
+                        ${
+                        isSelected
+                            ? "bg-gray-900 text-white"
+                            : isAvailable
+                            ? "hover:bg-gray-200 text-gray-900"
+                            : "text-gray-300 cursor-not-allowed"
+                        }`}
+                    >
+                    {day}
+                    </button>
+                );
+                })}
+            </div>
+            </div>
+
 
 
 
@@ -197,9 +262,24 @@ function LessonDetails() {
 
           <button
             type="button"
+            onClick={() => {
+            sessionStorage.setItem(
+                "pendingBooking",
+                JSON.stringify({
+                lessonId: lesson.id,
+                date: selectedDate,
+                time: selectedTime,
+                note: note,
+                price: lesson.price
+                })
+            );
+
+            window.location.href = "/learner-preview.html?screen=payment";
+            }}
             disabled={!selectedDate || !selectedTime}
             className="bg-black text-white p-3 rounded w-full disabled:opacity-50"
           >
+
             Continue to Payment
           </button>
         </Card>
