@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import craftspeople from '../data/craftspeople'
-import crafts from '../data/crafts'
+import Navbar from '../../components/Navbar'
+import Footer from '../../components/Footer'
+import craftspeople from '../../data/craftspeople'
+import crafts from '../../data/crafts'
 
 const cities = [...new Set(craftspeople.map((p) => p.city))]
 

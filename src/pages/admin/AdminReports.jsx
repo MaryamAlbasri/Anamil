@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Sidebar from '../components/Sidebar'
+import Sidebar from '../../components/Sidebar'
 import { adminLinks } from './AdminVerification'
 
 const initialReports = [
@@ -52,7 +52,7 @@ export default function AdminReports() {
       </main>
 
       {suspending && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50 p-6">
+        <div className="fixed inset-0 flex items-center justify-center bg-clay/50 p-6">
           <div className="w-full max-w-md rounded-2xl bg-white p-8">
             <h2 className="text-xl font-medium text-ink">Suspend {suspending.user}?</h2>
             <p className="mt-2 text-muted">They won't be able to log in, teach or sell until an admin restores the account.</p>

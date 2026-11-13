@@ -1,74 +1,56 @@
-
+import { Link } from "react-router-dom";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import { getLessonById } from "../../data/lessons";
-import Card from "../../components/Card";
 
 function BookingSlotTaken() {
-  const booking = JSON.parse(
-    sessionStorage.getItem("pendingBooking") || "null"
-  );
-
-  const lesson = booking
-    ? getLessonById(booking.lessonId)
-    : null;
-
-  const handleChooseAnotherSlot = () => {
-    window.location.href =
-  `/lessons/${booking?.lessonId || 1}`;
-  };
+  const booking = JSON.parse(sessionStorage.getItem("pendingBooking") || "null");
+  const lesson = booking ? getLessonById(booking.lessonId) : null;
+  const lessonId = booking?.lessonId || 1;
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
-      <Card className="w-full max-w-lg text-center">
-        <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100 text-orange-600 text-3xl">
-          !
-        </div>
+    <>
+      <Navbar />
 
-        <h1 className="text-2xl font-bold mb-3">
-          This slot was just taken
-        </h1>
-
-        <p className="text-gray-600 mb-6">
-          Sorry, the time slot you selected is no longer
-          available. Please choose another available time.
-        </p>
-
-        {booking && lesson && (
-          <div className="bg-gray-50 rounded-xl p-5 text-left space-y-3 mb-6">
-            <h2 className="font-semibold">
-              Your Previous Selection
-            </h2>
-
-            <p>
-              <strong>Lesson:</strong> {lesson.title}
-            </p>
-
-            <p>
-              <strong>Date:</strong> {booking.date}
-            </p>
-
-            <p>
-              <strong>Time:</strong> {booking.time}
-            </p>
-
-            <p>
-              <strong>Price:</strong> {lesson.price} SAR
-            </p>
+      <main className="flex min-h-[70vh] items-center justify-center bg-cream px-6 py-12">
+        <div className="w-full max-w-lg rounded-3xl bg-white p-8 text-center">
+          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-blush text-3xl text-clay">
+            !
           </div>
-        )}
 
-        <button
-          type="button"
-          onClick={handleChooseAnotherSlot}
-          className="w-full rounded-lg bg-black px-4 py-3 font-medium text-white hover:bg-gray-800"
-        >
-          Choose Another Slot
-        </button>
+          <h1 className="mb-3 font-serif text-4xl italic text-ink">This slot was just taken</h1>
+          <p className="mb-6 text-muted">
+            Someone booked this time a moment before you. Please pick another time.
+          </p>
 
-        <p className="text-xs text-gray-400 mt-5">
-          No payment has been processed.
-        </p>
-      </Card>
-    </div>
+          {booking && lesson && (
+            <div className="mb-6 space-y-2 rounded-2xl bg-cream p-5 text-left text-sm text-ink">
+              <p className="font-medium">Your previous choice</p>
+              <div className="flex justify-between"><span className="text-muted">Lesson</span><span>{lesson.title}</span></div>
+              <div className="flex justify-between">
+                <span className="text-muted">Date</span>
+                <span className="line-through decoration-clay">{booking.date}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted">Time</span>
+                <span className="line-through decoration-clay">{booking.time}</span>
+              </div>
+            </div>
+          )}
+
+          <Link
+            to={`/lessons/${lessonId}`}
+            className="block w-full rounded-full bg-clay py-3 font-medium text-white hover:opacity-90"
+          >
+            Choose another time
+          </Link>
+
+          <p className="mt-5 text-xs text-muted">No payment has been taken.</p>
+        </div>
+      </main>
+
+      <Footer />
+    </>
   );
 }
 
