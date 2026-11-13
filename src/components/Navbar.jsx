@@ -9,33 +9,40 @@ export default function Navbar() {
 
   return (
     <header className="bg-white">
-      <div className="flex items-center justify-between px-6 py-6 md:px-10">
-        <nav className="hidden gap-7 text-sm font-medium text-ink md:flex">
-          <NavLink to="/" end className={active}>Home</NavLink>
-          <NavLink to="/browse" className={active}>Hobbies</NavLink>
-          <NavLink to="/about" className={active}>About us</NavLink>
-          <NavLink to="/how-it-works" className={active}>How it works</NavLink>
-        </nav>
+      <div className="grid grid-cols-3 items-center px-6 py-5 md:px-10">
+        {/* Left: logo + links */}
+        <div className="flex items-center gap-8">
+          <Link to="/">
+            <img src="/images/logo.png" alt="Anamil logo" className="h-18 w-auto" />
+          </Link>
+          <nav className="hidden gap-6 text-sm font-medium text-ink lg:flex">
+            <NavLink to="/" end className={active}>Home</NavLink>
+            <NavLink to="/browse" className={active}>Hobbies</NavLink>
+            <NavLink to="/about" className={active}>About us</NavLink>
+            <NavLink to="/how-it-works" className={active}>How it works</NavLink>
+          </nav>
+        </div>
 
-        <button className="text-2xl md:hidden" onClick={() => setOpen(!open)}>
-          {open ? '✕' : '☰'}
-        </button>
-
-        <Link to="/" className="text-xl font-medium tracking-[0.4em] text-ink md:text-2xl">
+        {/* Center: name */}
+        <Link to="/" className="justify-self-center text-xl font-medium tracking-[0.4em] text-ink md:text-2xl">
           ANAMIL
         </Link>
 
-        <div className="flex items-center gap-6 text-sm font-medium text-ink">
-          <NavLink to="/login" className={({ isActive }) => `hidden md:block ${isActive ? 'text-clay' : ''}`}>Account</NavLink>
+        {/* Right: account, cart, ☰ */}
+        <div className="flex items-center justify-end gap-6 text-sm font-medium text-ink">
+          <NavLink to="/login" className={({ isActive }) => `hidden lg:block ${isActive ? 'text-clay' : ''}`}>Account</NavLink>
           <NavLink to="/cart" className={active}>Cart</NavLink>
+          <button className="text-2xl lg:hidden" onClick={() => setOpen(!open)}>
+            {open ? '✕' : '☰'}
+          </button>
         </div>
       </div>
-
       {open && (
         <nav className="flex flex-col gap-4 border-t border-cream px-6 py-4 text-ink md:hidden">
           <NavLink to="/" end className={active} onClick={() => setOpen(false)}>Home</NavLink>
           <NavLink to="/browse" className={active} onClick={() => setOpen(false)}>Hobbies</NavLink>
           <NavLink to="/about" className={active} onClick={() => setOpen(false)}>About us</NavLink>
+          <NavLink to="/how-it-works" className={active} onClick={() => setOpen(false)}>How it works</NavLink>
           <NavLink to="/login" className={active} onClick={() => setOpen(false)}>Account</NavLink>
         </nav>
       )}
