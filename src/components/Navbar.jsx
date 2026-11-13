@@ -9,30 +9,35 @@ export default function Navbar() {
 
   return (
     <header className="bg-white">
-      <div className="flex items-center justify-between px-5 py-3 lg:grid lg:grid-cols-3 lg:px-10 lg:py-5">
-        {/* Left: logo (+ name on phone) + links on laptop */}
-        <div className="flex items-center gap-3 lg:gap-8">
-          <Link to="/" className="flex items-center gap-2">
-            <img src="/images/logo.png" alt="Anamil logo" className="h-10 w-auto lg:h-14" />
-            <span className="text-base font-medium tracking-[0.25em] text-ink lg:hidden">ANAMIL</span>
-          </Link>
-          <nav className="hidden gap-6 text-sm font-medium text-ink lg:flex">
-            <NavLink to="/" end className={active}>Home</NavLink>
-            <NavLink to="/browse" className={active}>Hobbies</NavLink>
-            <NavLink to="/about" className={active}>About us</NavLink>
-            <NavLink to="/how-it-works" className={active}>How it works</NavLink>
-          </nav>
-        </div>
-
-        {/* Center: name (laptop only) */}
-        <Link to="/" className="hidden justify-self-center text-2xl font-medium tracking-[0.4em] text-ink lg:block">
-          ANAMIL
+      <div className="flex items-center justify-between px-5 py-3 lg:px-10 lg:py-4">
+        {/* Left: logo */}
+        <Link to="/" className="shrink-0">
+          <img src="/images/logo.png" alt="Anamil" className="h-10 w-auto lg:h-14" />
         </Link>
 
+        {/* Center: links (laptop only) */}
+        <nav className="hidden gap-8 whitespace-nowrap text-sm font-medium text-ink lg:flex">
+          <NavLink to="/" end className={active}>Home</NavLink>
+          <NavLink to="/browse" className={active}>Hobbies</NavLink>
+          <NavLink to="/how-it-works" className={active}>How it works</NavLink>
+          <NavLink to="/about" className={active}>About us</NavLink>
+        </nav>
+
         {/* Right: account, cart, menu button */}
-        <div className="flex items-center justify-end gap-5 text-sm font-medium text-ink">
-          <NavLink to="/login" className={({ isActive }) => `hidden lg:block ${isActive ? 'text-clay' : ''}`}>Account</NavLink>
-          <NavLink to="/cart" className={({ isActive }) => `flex h-8 items-center ${isActive ? 'text-clay' : ''}`}>Cart</NavLink>
+        <div className="flex items-center gap-5 text-sm font-medium text-ink">
+          <NavLink to="/login" className={({ isActive }) => `hidden whitespace-nowrap lg:block ${isActive ? 'text-clay' : ''}`}>
+            Account
+          </NavLink>
+          <NavLink to="/cart" aria-label="Cart"
+            className={({ isActive }) => `relative flex h-8 w-8 items-center justify-center ${isActive ? 'text-clay' : 'text-ink'}`}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 7h12l-1.2 12.1a1 1 0 0 1-1 .9H8.2a1 1 0 0 1-1-.9L6 7Z" />
+              <path d="M9 7V6a3 3 0 0 1 6 0v1" />
+            </svg>
+            <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-clay text-[10px] text-white">
+              2
+            </span>
+          </NavLink>
           <button className="flex h-8 w-8 items-center justify-center lg:hidden" onClick={() => setOpen(!open)} aria-label="Menu">
             {open ? (
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2A211C" strokeWidth="2" strokeLinecap="round">
@@ -48,13 +53,19 @@ export default function Navbar() {
       </div>
 
       {open && (
-        <nav className="flex flex-col gap-4 border-t border-cream px-6 py-4 text-ink lg:hidden">
+        <nav className="flex flex-col gap-4 border-t border-cream px-6 py-5 text-ink lg:hidden">
           <NavLink to="/" end className={active} onClick={() => setOpen(false)}>Home</NavLink>
-          <NavLink to="/find-my-hobby" className={active} onClick={() => setOpen(false)}>✦ Find my hobby</NavLink>
           <NavLink to="/browse" className={active} onClick={() => setOpen(false)}>Hobbies</NavLink>
-          <NavLink to="/about" className={active} onClick={() => setOpen(false)}>About us</NavLink>
           <NavLink to="/how-it-works" className={active} onClick={() => setOpen(false)}>How it works</NavLink>
+          <NavLink to="/about" className={active} onClick={() => setOpen(false)}>About us</NavLink>
+
+          <div className="my-1 border-t border-cream" />
+
           <NavLink to="/login" className={active} onClick={() => setOpen(false)}>Account</NavLink>
+          <Link to="/find-my-hobby" onClick={() => setOpen(false)}
+            className="mt-1 rounded-full bg-clay py-3 text-center text-sm font-medium text-white">
+            ✦ Find my hobby
+          </Link>
         </nav>
       )}
 
