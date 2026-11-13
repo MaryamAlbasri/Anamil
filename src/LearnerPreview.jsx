@@ -4,6 +4,7 @@ import BookingSlotTaken from "./pages/learner/BookingSlotTaken";
 import BookingSuccess from "./pages/learner/BookingSuccess";
 import LessonPayment from "./pages/learner/LessonPayment";
 import PaymentFailed from "./pages/learner/PaymentFailed";
+import WhatToBuy from "./pages/learner/WhatToBuy";
 
 function LearnerPreview() {
   const params = new URLSearchParams(window.location.search);
@@ -21,6 +22,9 @@ function LearnerPreview() {
 
     case "payment-failed":
       return <PaymentFailed />;
+
+    case "what-to-buy":
+      return <WhatToBuy />;
 
     default:
       return <LessonDetails />;
