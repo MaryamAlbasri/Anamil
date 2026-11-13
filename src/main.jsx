@@ -1,13 +1,20 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
-import './index.css'
-import App from './App.jsx'
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </StrictMode>,
-)
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { BookingProvider } from "./context/BookingContext";
+import "./index.css";
+import App from "./App.jsx";
+
+// AI Assistance: ChatGPT helped integrate BookingProvider
+// into the application without changing the existing routes.
+
+createRoot(document.getElementById("root")).render(
+    <StrictMode>
+        <BrowserRouter>
+            <BookingProvider>
+                <App />
+            </BookingProvider>
+        </BrowserRouter>
+    </StrictMode>
+);
