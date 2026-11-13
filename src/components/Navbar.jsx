@@ -29,10 +29,10 @@ export default function Navbar() {
           ANAMIL
         </Link>
 
-        {/* Right: account, cart, ☰ */}
+        {/* Right: account, cart, menu button */}
         <div className="flex items-center justify-end gap-5 text-sm font-medium text-ink">
           <NavLink to="/login" className={({ isActive }) => `hidden lg:block ${isActive ? 'text-clay' : ''}`}>Account</NavLink>
-          <NavLink to="/cart" className={active}>Cart</NavLink>
+          <NavLink to="/cart" className={({ isActive }) => `flex h-8 items-center ${isActive ? 'text-clay' : ''}`}>Cart</NavLink>
           <button className="flex h-8 w-8 items-center justify-center lg:hidden" onClick={() => setOpen(!open)} aria-label="Menu">
             {open ? (
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2A211C" strokeWidth="2" strokeLinecap="round">
@@ -43,12 +43,14 @@ export default function Navbar() {
                 <path d="M4 7h16M4 12h16M4 17h16" />
               </svg>
             )}
-        </button>
+          </button>
         </div>
       </div>
+
       {open && (
-        <nav className="flex flex-col gap-4 border-t border-cream px-6 py-4 text-ink md:hidden">
+        <nav className="flex flex-col gap-4 border-t border-cream px-6 py-4 text-ink lg:hidden">
           <NavLink to="/" end className={active} onClick={() => setOpen(false)}>Home</NavLink>
+          <NavLink to="/find-my-hobby" className={active} onClick={() => setOpen(false)}>✦ Find my hobby</NavLink>
           <NavLink to="/browse" className={active} onClick={() => setOpen(false)}>Hobbies</NavLink>
           <NavLink to="/about" className={active} onClick={() => setOpen(false)}>About us</NavLink>
           <NavLink to="/how-it-works" className={active} onClick={() => setOpen(false)}>How it works</NavLink>
@@ -56,14 +58,14 @@ export default function Navbar() {
         </nav>
       )}
 
-      <div className="flex justify-center px-6 pb-2 md:px-10">
+      <div className="hidden justify-center px-6 pb-2 lg:flex lg:px-10">
         <Link to="/find-my-hobby" className="flex w-full max-w-2xl items-center justify-between rounded-full border border-blush bg-cream px-6 py-4 text-muted">
           <span><span className="text-clay">✦</span> Describe a hobby you'd enjoy…</span>
           <span>🔍</span>
         </Link>
       </div>
 
-      <nav className="flex gap-6 overflow-x-auto border-b border-cream px-6 py-4 text-ink md:justify-center md:gap-8">
+      <nav className="flex gap-5 overflow-x-auto border-b border-cream px-5 py-3 text-sm text-ink lg:justify-center lg:gap-8 lg:py-4 lg:text-base">
         {crafts.slice(0, 7).map((c) => (
           <Link key={c.id} to={`/browse?craft=${c.id}`} className="whitespace-nowrap">{c.name}</Link>
         ))}

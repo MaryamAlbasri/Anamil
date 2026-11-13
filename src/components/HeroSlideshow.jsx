@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const slides = [
   { img: '/images/weaving.png', word: 'weaving', caption: 'Lina · Weaving · Amman' },
@@ -12,11 +12,18 @@ const slides = [
 
 export default function HeroSlideshow() {
   const [current, setCurrent] = useState(0)
+  const [query, setQuery] = useState('')
+  const navigate = useNavigate()
 
   useEffect(() => {
     const timer = setTimeout(() => setCurrent((current + 1) % slides.length), 4500)
     return () => clearTimeout(timer)
   }, [current])
+
+  function handleSearch(e) {
+    e.preventDefault()
+    navigate(`/find-my-hobby?q=${encodeURIComponent(query)}`)
+  }
 
   return (
     <section className="relative h-[440px] overflow-hidden bg-ink md:h-[560px]">
@@ -35,14 +42,19 @@ export default function HeroSlideshow() {
           <span className="text-gold">{slides[current].word}</span> teacher.
         </h1>
 
-        <Link to="/find-my-hobby"
+        <form onSubmit={handleSearch}
           className="mt-5 flex max-w-md items-center justify-between rounded-full bg-white py-1.5 pl-4 pr-1.5 md:mt-8 md:py-2 md:pl-5 md:pr-2">
-          <span className="text-sm text-muted">✦ Describe a hobby…</span>
-          <span className="rounded-full bg-clay px-4 py-2 text-xs font-medium text-white md:py-3 md:tracking-widest">
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="✦ Describe a hobby…"
+            className="w-full bg-transparent text-sm text-ink outline-none placeholder:text-muted"
+          />
+          <button className="shrink-0 rounded-full bg-clay px-4 py-2 text-xs font-medium text-white md:py-3 md:tracking-widest">
             <span className="md:hidden">Find</span>
             <span className="hidden md:inline">FIND MY HOBBY</span>
-          </span>
-        </Link>
+          </button>
+        </form>
         <Link to="/browse" className="mt-3 hidden text-sm font-medium underline md:inline-block">
           Browse all teachers →
         </Link>
