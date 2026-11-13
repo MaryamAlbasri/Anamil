@@ -82,7 +82,7 @@ function LessonDetails() {
             About this lesson
         </h2>
 
-        <p className="text-gray-600 leading-relaxed">
+        <p className="text-muted leading-relaxed">
             {lesson.description}
         </p>
         </div>
@@ -92,7 +92,7 @@ function LessonDetails() {
             What to bring
         </h2>
 
-        <ul className="list-disc list-inside text-gray-600 space-y-1">
+        <ul className="list-disc list-inside text-muted space-y-1">
             <li>Apron or old clothes</li>
             <li>Small towel</li>
             <li>Hair tie</li>
@@ -158,7 +158,7 @@ function LessonDetails() {
 
             <div className="grid grid-cols-7 gap-2 text-center mb-2">
                 {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
-                <span key={index} className="text-xs text-gray-500">
+                <span key={index} className="text-xs text-muted">
                     {day}
                 </span>
                 ))}
@@ -186,9 +186,9 @@ function LessonDetails() {
                     className={`aspect-square rounded-full text-sm transition
                         ${
                         isSelected
-                            ? "bg-gray-900 text-white"
+                            ? "bg-clay text-white"
                             : isAvailable
-                            ? "hover:bg-gray-200 text-gray-900"
+                            ? "hover:bg-gray-200 text-ink"
                             : "text-gray-300 cursor-not-allowed"
                         }`}
                     >
@@ -240,7 +240,7 @@ function LessonDetails() {
   </div>
 
   {selectedDate && slotsForSelectedDate.length === 0 && (
-    <p className="text-sm text-gray-500 mt-3">
+    <p className="text-sm text-muted mt-3">
       No available time slots for this date.
     </p>
   )}
@@ -301,7 +301,7 @@ function LessonDetails() {
                 `/lessons/${lesson.id}/payment`;
             }}
             disabled={!selectedDate || !selectedTime}
-            className="bg-black text-white p-3 rounded w-full disabled:opacity-50"
+            className="bg-clay text-white p-3 rounded w-full disabled:opacity-50"
             >
             Continue to Payment
             </button>

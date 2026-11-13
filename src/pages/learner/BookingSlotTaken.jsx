@@ -16,8 +16,9 @@ function BookingSlotTaken() {
   `/lessons/${booking?.lessonId || 1}`;
   };
 
+
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-cream flex items-center justify-center p-6">
       <Card className="w-full max-w-lg text-center">
         <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100 text-orange-600 text-3xl">
           !
@@ -27,13 +28,13 @@ function BookingSlotTaken() {
           This slot was just taken
         </h1>
 
-        <p className="text-gray-600 mb-6">
+        <p className="text-muted mb-6">
           Sorry, the time slot you selected is no longer
           available. Please choose another available time.
         </p>
 
         {booking && lesson && (
-          <div className="bg-gray-50 rounded-xl p-5 text-left space-y-3 mb-6">
+          <div className="bg-cream rounded-xl p-5 text-left space-y-3 mb-6">
             <h2 className="font-semibold">
               Your Previous Selection
             </h2>
@@ -59,7 +60,7 @@ function BookingSlotTaken() {
         <button
           type="button"
           onClick={handleChooseAnotherSlot}
-          className="w-full rounded-lg bg-black px-4 py-3 font-medium text-white hover:bg-gray-800"
+          className="w-full rounded-lg bg-clay px-4 py-3 font-medium text-white hover:bg-gray-800"
         >
           Choose Another Slot
         </button>

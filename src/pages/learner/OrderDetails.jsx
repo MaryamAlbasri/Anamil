@@ -49,20 +49,20 @@ function OrderDetails() {
 
   if (!order) {
     return (
-      <main className="min-h-screen bg-gray-50 px-4 py-10">
+      <main className="min-h-screen bg-cream px-4 py-10">
         <div className="mx-auto max-w-xl rounded-xl border bg-white p-8 text-center">
           <h1 className="text-2xl font-bold">
             Order not found
           </h1>
 
-          <p className="mt-3 text-gray-600">
+          <p className="mt-3 text-muted">
             We could not find your order details.
           </p>
 
           <button
             type="button"
             onClick={() => goTo("cart")}
-            className="mt-6 rounded-lg bg-black px-5 py-3 text-white"
+            className="mt-6 rounded-lg bg-clay px-5 py-3 text-white"
           >
             Back to shop
           </button>
@@ -91,12 +91,12 @@ function OrderDetails() {
   const isDeclined = order.status === "Declined";
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-10">
+    <main className="min-h-screen bg-cream px-4 py-10">
       <div className="mx-auto max-w-3xl">
         <button
           type="button"
           onClick={() => goTo("order-confirmation")}
-          className="mb-6 text-sm text-gray-600 underline"
+          className="mb-6 text-sm text-muted underline"
         >
           ← Back to order confirmation
         </button>
@@ -108,11 +108,11 @@ function OrderDetails() {
                 Order details
               </h1>
 
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-2 text-sm text-muted">
                 Order #{order.id}
               </p>
 
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-1 text-sm text-muted">
                 Placed on {formattedDate}
               </p>
             </div>
@@ -147,8 +147,8 @@ function OrderDetails() {
                     <span
                       className={`flex h-7 w-7 items-center justify-center rounded-full text-sm ${
                         index <= currentStep
-                          ? "bg-black text-white"
-                          : "bg-gray-200 text-gray-500"
+                          ? "bg-clay text-white"
+                          : "bg-gray-200 text-muted"
                       }`}
                     >
                       {index <= currentStep ? "✓" : index + 1}
@@ -185,7 +185,7 @@ function OrderDetails() {
                       {item.name}
                     </p>
 
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-muted">
                       Quantity: {item.quantity}
                     </p>
                   </div>
@@ -221,11 +221,11 @@ function OrderDetails() {
             </h2>
 
             {order.deliveryMethod === "pickup" ? (
-              <p className="mt-3 text-gray-600">
+              <p className="mt-3 text-muted">
                 Pickup from craftsperson – Al Olaya, Riyadh
               </p>
             ) : (
-              <div className="mt-3 space-y-1 text-sm text-gray-600">
+              <div className="mt-3 space-y-1 text-sm text-muted">
                 <p>{order.address?.city}</p>
                 <p>{order.address?.district}</p>
                 <p>{order.address?.street}</p>
@@ -239,15 +239,15 @@ function OrderDetails() {
               Payment information
             </h2>
 
-            <p className="mt-3 text-sm text-gray-600">
+            <p className="mt-3 text-sm text-muted">
               Method: {order.paymentMethod}
             </p>
 
-            <p className="mt-1 text-sm text-gray-600">
+            <p className="mt-1 text-sm text-muted">
               Status: {order.paymentStatus}
             </p>
 
-            <p className="mt-3 text-xs text-gray-500">
+            <p className="mt-3 text-xs text-muted">
               This is a demonstration order.
               No real payment was processed.
             </p>
@@ -256,7 +256,7 @@ function OrderDetails() {
           <button
             type="button"
             onClick={() => goTo("cart")}
-            className="mt-8 rounded-lg bg-black px-5 py-3 text-white"
+            className="mt-8 rounded-lg bg-clay px-5 py-3 text-white"
           >
             Back to shop
           </button>

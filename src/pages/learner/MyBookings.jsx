@@ -131,7 +131,7 @@ function MyBookings() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-8">
+    <main className="min-h-screen bg-cream px-4 py-8">
       <div className="mx-auto max-w-5xl">
         <h1 className="mb-6 text-3xl font-bold">
           My bookings
@@ -159,8 +159,8 @@ function MyBookings() {
               }}
               className={`border-b-2 pb-3 text-sm font-medium ${
                 activeTab === tab.id
-                  ? "border-black text-black"
-                  : "border-transparent text-gray-500"
+                  ? "border-black text-ink"
+                  : "border-transparent text-muted"
               }`}
             >
               {tab.label} ({tab.count})
@@ -170,7 +170,7 @@ function MyBookings() {
 
         <div className="space-y-4">
           {visibleBookings.length === 0 ? (
-            <div className="rounded-xl bg-white p-8 text-center text-gray-500">
+            <div className="rounded-xl bg-white p-8 text-center text-muted">
               No bookings found.
             </div>
           ) : (
@@ -185,7 +185,7 @@ function MyBookings() {
                       {booking.lesson}
                     </h2>
 
-                    <p className="mt-1 text-sm text-gray-600">
+                    <p className="mt-1 text-sm text-muted">
                       {booking.craftsperson} ·{" "}
                       {formatDate(booking.date)} ·{" "}
                       {booking.time}
@@ -201,7 +201,7 @@ function MyBookings() {
                       </p>
                     )}
 
-                    <p className="mt-2 text-sm text-gray-500">
+                    <p className="mt-2 text-sm text-muted">
                       {booking.location}
                     </p>
                   </div>
@@ -236,7 +236,7 @@ function MyBookings() {
                     {booking.status === "Completed" && (
                       <a
                         href={`/my-bookings/${booking.id}/review`}
-                        className="rounded-lg bg-black px-4 py-2 text-sm font-medium text-white"
+                        className="rounded-lg bg-clay px-4 py-2 text-sm font-medium text-white"
                       >
                         Write review
                       </a>

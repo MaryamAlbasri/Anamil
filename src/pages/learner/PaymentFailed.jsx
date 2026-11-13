@@ -35,7 +35,7 @@ function PaymentFailed() {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-cream flex items-center justify-center p-6">
       <Card className="w-full max-w-lg text-center">
 
         <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-red-100 text-red-600 text-4xl">
@@ -46,7 +46,7 @@ function PaymentFailed() {
           Payment Failed
         </h1>
 
-        <p className="text-gray-600 mb-6">
+        <p className="text-muted mb-6">
           Unfortunately, your payment could not be
           processed. Please check your payment details
           and try again.
@@ -57,7 +57,7 @@ function PaymentFailed() {
             Payment Declined
           </h2>
 
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-muted">
             Your card was declined.
             No payment has been made.
             Please try another payment method.
@@ -65,7 +65,7 @@ function PaymentFailed() {
         </div>
 
         {booking && (
-          <div className="bg-gray-50 rounded-xl p-4 mb-6 text-left space-y-2">
+          <div className="bg-cream rounded-xl p-4 mb-6 text-left space-y-2">
             <h2 className="font-semibold">
               Booking Details
             </h2>
@@ -88,7 +88,7 @@ function PaymentFailed() {
           <button
             type="button"
             onClick={handleRetry}
-            className="flex-1 rounded-lg bg-black px-4 py-3 text-sm font-medium text-white hover:bg-gray-800"
+            className="flex-1 rounded-lg bg-clay px-4 py-3 text-sm font-medium text-white hover:bg-gray-800"
           >
             Try Again
           </button>

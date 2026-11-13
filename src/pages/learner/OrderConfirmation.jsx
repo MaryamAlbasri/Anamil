@@ -35,20 +35,20 @@ function OrderConfirmation() {
 
   if (!order) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-gray-50 p-6">
+      <main className="flex min-h-screen items-center justify-center bg-cream p-6">
         <div className="w-full max-w-md rounded-xl border bg-white p-8 text-center">
           <h1 className="text-2xl font-bold">
             No completed order found
           </h1>
 
-          <p className="mt-3 text-gray-600">
+          <p className="mt-3 text-muted">
             Complete checkout to see your order confirmation.
           </p>
 
           <button
             type="button"
             onClick={() => goTo("cart")}
-            className="mt-6 rounded-lg bg-black px-5 py-3 text-white"
+            className="mt-6 rounded-lg bg-clay px-5 py-3 text-white"
           >
             Back to cart
           </button>
@@ -67,7 +67,7 @@ function OrderConfirmation() {
 
 
   return (
-    <main className="flex min-h-screen justify-center bg-gray-50 px-4 py-12">
+    <main className="flex min-h-screen justify-center bg-cream px-4 py-12">
       <div className="w-full max-w-md">
         <div className="rounded-xl border border-gray-200 bg-white p-7 shadow-sm">
           <div className="text-center">
@@ -83,7 +83,7 @@ function OrderConfirmation() {
               Order #{order.id}
             </p>
 
-            <p className="mt-3 text-sm text-gray-600">
+            <p className="mt-3 text-sm text-muted">
               Your order has been placed successfully.
               The craftsperson will prepare your order
               and notify you when it is ready.
@@ -96,7 +96,7 @@ function OrderConfirmation() {
                 key={item.id}
                 className="flex justify-between gap-4"
               >
-                <span className="text-gray-600">
+                <span className="text-muted">
                   {item.name} × {item.quantity}
                 </span>
 
@@ -107,7 +107,7 @@ function OrderConfirmation() {
             ))}
 
             <div className="flex justify-between border-t pt-3">
-              <span className="text-gray-600">
+              <span className="text-muted">
                 Delivery
               </span>
               <span>{order.shipping} SAR</span>
@@ -119,7 +119,7 @@ function OrderConfirmation() {
             </div>
 
             <div className="flex justify-between gap-4">
-              <span className="text-gray-600">
+              <span className="text-muted">
                 Payment
               </span>
               <span className="text-right">
@@ -128,7 +128,7 @@ function OrderConfirmation() {
             </div>
 
             <div className="flex justify-between">
-              <span className="text-gray-600">
+              <span className="text-muted">
                 Status
               </span>
               <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800">
@@ -141,7 +141,7 @@ function OrderConfirmation() {
             <button
               type="button"
               onClick={trackOrder}
-              className="rounded-lg bg-black px-3 py-3 text-sm font-medium text-white"
+              className="rounded-lg bg-clay px-3 py-3 text-sm font-medium text-white"
             >
               Track order
             </button>
@@ -155,7 +155,7 @@ function OrderConfirmation() {
             </button>
           </div>
 
-          <p className="mt-5 text-center text-xs text-gray-500">
+          <p className="mt-5 text-center text-xs text-muted">
             {isPickup
               ? "Pickup from craftsperson"
               : `Delivery to ${order.address?.district || ""}, ${order.address?.city || ""}`}

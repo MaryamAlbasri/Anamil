@@ -94,11 +94,11 @@ function WhatToBuy() {
     : "Date to be confirmed";
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-8">
+    <div className="min-h-screen bg-cream px-4 py-8">
       <main className="mx-auto max-w-3xl">
         <a
           href="/lessons/1"
-          className="text-sm text-gray-600 underline"
+          className="text-sm text-muted underline"
         >
           ← Back to lesson
         </a>
@@ -107,7 +107,7 @@ function WhatToBuy() {
           Before your first pottery lesson
         </h1>
 
-        <p className="mt-2 text-sm text-gray-600">
+        <p className="mt-2 text-sm text-muted">
           Wheel throwing for beginners · {displayDate}
           {" "}with Noura Alqahtani
         </p>
@@ -119,7 +119,7 @@ function WhatToBuy() {
 
           <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
             <div
-              className="h-full bg-gray-900 transition-all"
+              className="h-full bg-clay transition-all"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -148,7 +148,7 @@ function WhatToBuy() {
                         {item.name}
                       </span>
 
-                      <span className="block text-xs text-gray-500">
+                      <span className="block text-xs text-muted">
                         {item.description}
                       </span>
                     </span>
@@ -157,7 +157,7 @@ function WhatToBuy() {
                   <div className="ml-auto flex items-center gap-3">
                     {item.provided ? (
                       <>
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-muted">
                           Included
                         </span>
 
@@ -167,13 +167,13 @@ function WhatToBuy() {
                       </>
                     ) : (
                       <>
-                        <span className="text-sm text-gray-600">
+                        <span className="text-sm text-muted">
                           ~{item.price} SAR
                         </span>
 
                         {item.shopLink && (
                           <span
-                            className="text-xs text-gray-500 underline"
+                            className="text-xs text-muted underline"
                             title="Shop link coming soon"
                           >
                             View in shop
@@ -188,7 +188,7 @@ function WhatToBuy() {
           </div>
         </Card>
 
-        <p className="mt-5 text-xs text-gray-500">
+        <p className="mt-5 text-xs text-muted">
           Approximate prices are set by the craftsperson.
           Items marked Provided are included in the lesson.
           Shop links will be connected when product pages
@@ -197,7 +197,7 @@ function WhatToBuy() {
 
         <a
           href="/lessons/1"
-          className="mt-7 block rounded-lg bg-black px-5 py-3 text-center font-medium text-white hover:bg-gray-800"
+          className="mt-7 block rounded-lg bg-clay px-5 py-3 text-center font-medium text-white hover:bg-gray-800"
         >
           Back to Lesson Details
         </a>

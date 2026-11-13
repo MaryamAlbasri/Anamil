@@ -45,19 +45,19 @@ function BookingDetails() {
 
   if (!booking) {
     return (
-      <main className="min-h-screen bg-gray-50 p-8">
+      <main className="min-h-screen bg-cream p-8">
         <div className="mx-auto max-w-xl text-center">
           <h1 className="text-2xl font-bold">
             Booking not found
           </h1>
 
-          <p className="mt-3 text-gray-600">
+          <p className="mt-3 text-muted">
             We could not find the selected booking.
           </p>
 
           <a
             href="/my-bookings"
-            className="mt-6 inline-block rounded-lg bg-black px-5 py-3 text-white"
+            className="mt-6 inline-block rounded-lg bg-clay px-5 py-3 text-white"
           >
             Back to My Bookings
           </a>
@@ -67,11 +67,11 @@ function BookingDetails() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-8">
+    <main className="min-h-screen bg-cream px-4 py-8">
       <div className="mx-auto max-w-3xl">
         <a
           href="/my-bookings"
-          className="text-sm text-gray-600 underline"
+          className="text-sm text-muted underline"
         >
           ← Back to My Bookings
         </a>
@@ -79,7 +79,7 @@ function BookingDetails() {
         <div className="mt-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-muted">
                 Booking #{booking.id}
               </p>
 
@@ -87,7 +87,7 @@ function BookingDetails() {
                 {booking.lesson}
               </h1>
 
-              <p className="mt-2 text-gray-600">
+              <p className="mt-2 text-muted">
                 With {booking.craftsperson}
               </p>
             </div>
@@ -108,7 +108,7 @@ function BookingDetails() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-muted">
                   Date
                 </p>
                 <p className="font-medium">
@@ -117,7 +117,7 @@ function BookingDetails() {
               </div>
 
               <div>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-muted">
                   Time
                 </p>
                 <p className="font-medium">
@@ -126,7 +126,7 @@ function BookingDetails() {
               </div>
 
               <div>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-muted">
                   Location
                 </p>
                 <p className="font-medium">
@@ -135,7 +135,7 @@ function BookingDetails() {
               </div>
 
               <div>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-muted">
                   Total paid (demo)
                 </p>
                 <p className="font-medium">
@@ -157,7 +157,7 @@ function BookingDetails() {
             </button>
 
             {showMore && (
-              <div className="mt-4 rounded-lg bg-gray-50 p-4 text-sm text-gray-600">
+              <div className="mt-4 rounded-lg bg-cream p-4 text-sm text-muted">
                 <p>
                   Booking reference: AN-{booking.id}
                 </p>
@@ -186,7 +186,7 @@ function BookingDetails() {
             {status === "Completed" && (
               <a
                 href={`/my-bookings/${booking.id}/review`}
-                className="rounded-lg bg-black px-5 py-3 text-sm font-medium text-white"
+                className="rounded-lg bg-clay px-5 py-3 text-sm font-medium text-white"
               >
                 Write a review
               </a>

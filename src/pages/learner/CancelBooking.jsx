@@ -77,13 +77,14 @@ function CancelBooking() {
       JSON.stringify(updated)
     );
 
+
     setIsCancelled(true);
     setIsModalOpen(false);
   };
 
   if (!booking) {
     return (
-      <main className="min-h-screen bg-gray-50 p-8 text-center">
+      <main className="min-h-screen bg-cream p-8 text-center">
         <h1 className="text-2xl font-bold">
           Booking not found
         </h1>
@@ -101,7 +102,7 @@ function CancelBooking() {
 
   if (!cancellationAllowed && !isCancelled) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-gray-50 p-6">
+      <main className="flex min-h-screen items-center justify-center bg-cream p-6">
         <div className="w-full max-w-md rounded-xl bg-white p-8 text-center shadow-sm">
           <div className="mb-4 text-4xl text-orange-500">
             !
@@ -111,13 +112,13 @@ function CancelBooking() {
             Cancellation not allowed
           </h1>
 
-          <p className="mt-4 text-gray-600">
+          <p className="mt-4 text-muted">
             {alreadyCancelled
               ? "This booking has already been cancelled."
               : "This booking cannot be cancelled because the cancellation period has ended or the booking is no longer eligible."}
           </p>
 
-          <p className="mt-3 text-sm text-gray-500">
+          <p className="mt-3 text-sm text-muted">
             Demo cancellation policy: cancellations must
             be made more than 24 hours before the lesson.
           </p>
@@ -125,7 +126,7 @@ function CancelBooking() {
           <button
             type="button"
             onClick={handleBack}
-            className="mt-6 w-full rounded-lg bg-black px-5 py-3 text-white"
+            className="mt-6 w-full rounded-lg bg-clay px-5 py-3 text-white"
           >
             Back to My Bookings
           </button>
@@ -135,18 +136,18 @@ function CancelBooking() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 p-6">
+    <main className="min-h-screen bg-cream p-6">
       <Modal
         isOpen={isModalOpen}
         onClose={handleBack}
         title="Cancel booking?"
       >
-        <p className="mb-5 text-gray-600">
+        <p className="mb-5 text-muted">
           Are you sure you want to cancel this booking?
           This action cannot be undone.
         </p>
 
-        <div className="mb-5 rounded-lg bg-gray-50 p-4 text-sm">
+        <div className="mb-5 rounded-lg bg-cream p-4 text-sm">
           <p>
             <strong>Lesson:</strong> {booking.lesson}
           </p>
@@ -189,14 +190,14 @@ function CancelBooking() {
             Booking cancelled
           </h1>
 
-          <p className="mt-3 text-gray-600">
+          <p className="mt-3 text-muted">
             Your booking has been cancelled successfully.
           </p>
 
           <button
             type="button"
             onClick={handleBack}
-            className="mt-6 rounded-lg bg-black px-5 py-3 text-white"
+            className="mt-6 rounded-lg bg-clay px-5 py-3 text-white"
           >
             Back to My Bookings
           </button>

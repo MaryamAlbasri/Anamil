@@ -66,7 +66,7 @@ function LessonPayment() {
         Payment
       </h1>
 
-      <p className="text-gray-500 mb-6">
+      <p className="text-muted mb-6">
         Step 2 of 2 - Pay to send your booking request
       </p>
 
@@ -132,7 +132,7 @@ function LessonPayment() {
             </div>
           )}
 
-          <p className="text-xs text-gray-500 mt-5">
+          <p className="text-xs text-muted mt-5">
             Demo payment only. No real payment is processed.
           </p>
         </Card>
@@ -160,7 +160,7 @@ function LessonPayment() {
               paymentMethod === "card" &&
               !isCardValid
             }
-            className="bg-black text-white w-full p-3 rounded mt-5 disabled:opacity-50"
+            className="bg-clay text-white w-full p-3 rounded mt-5 disabled:opacity-50"
           >
             Pay {lesson.price} SAR
           </button>

@@ -205,7 +205,7 @@ function Cart() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-8">
+    <main className="min-h-screen bg-cream px-4 py-8">
       <div className="mx-auto max-w-6xl">
         <h1 className="mb-7 text-3xl font-bold">
           Your cart
@@ -239,7 +239,7 @@ function Cart() {
                         {item.name}
                       </h2>
 
-                      <p className="mt-1 text-sm text-gray-500">
+                      <p className="mt-1 text-sm text-muted">
                         Sold by {item.craftsperson}
                       </p>
 
@@ -337,7 +337,7 @@ function Cart() {
                     <span className="block font-medium">
                       {method.label}
                     </span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-muted">
                       {method.description}
                     </span>
                   </span>
@@ -411,12 +411,12 @@ function Cart() {
               type="button"
               onClick={handleCheckout}
               disabled={items.length === 0}
-              className="mt-5 w-full rounded-lg bg-black px-5 py-3 font-medium text-white disabled:opacity-50"
+              className="mt-5 w-full rounded-lg bg-clay px-5 py-3 font-medium text-white disabled:opacity-50"
             >
               Continue to payment
             </button>
 
-            <p className="mt-3 text-center text-xs text-gray-500">
+            <p className="mt-3 text-center text-xs text-muted">
               You'll pay securely on the next step.
               Demo only — no real payment.
             </p>

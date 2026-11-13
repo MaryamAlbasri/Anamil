@@ -14,7 +14,7 @@ function BookingSuccess() {
   if (!booking || !lesson) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-500">
+        <p className="text-muted">
           No booking found.
         </p>
       </div>
@@ -22,7 +22,7 @@ function BookingSuccess() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-cream flex items-center justify-center p-6">
       <Card className="w-full max-w-lg text-center">
 
         <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-green-700 text-4xl">
@@ -33,13 +33,13 @@ function BookingSuccess() {
           Booking request sent!
         </h1>
 
-        <p className="text-gray-600 mb-6">
+        <p className="text-muted mb-6">
           Your booking request has been sent successfully.
           The craftsperson will review your request
           and confirm your booking soon.
         </p>
 
-        <div className="bg-gray-50 rounded-xl p-5 text-left space-y-3 mb-6">
+        <div className="bg-cream rounded-xl p-5 text-left space-y-3 mb-6">
           <h2 className="text-lg font-semibold mb-3">
             Booking Summary
           </h2>
@@ -76,7 +76,7 @@ function BookingSuccess() {
           </div>
         </div>
 
-        <p className="text-sm text-gray-500 mb-5">
+        <p className="text-sm text-muted mb-5">
           This is a demo booking.
           No real payment has been processed.
         </p>
@@ -84,7 +84,7 @@ function BookingSuccess() {
         <div className="flex flex-col sm:flex-row gap-3">
           <a
             href="/my-bookings"
-            className="flex-1 rounded-lg bg-black px-4 py-3 text-sm font-medium text-white hover:bg-gray-800"
+            className="flex-1 rounded-lg bg-clay px-4 py-3 text-sm font-medium text-white hover:bg-gray-800"
           >
             Go to My Bookings
           </a>

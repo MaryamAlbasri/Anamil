@@ -145,16 +145,16 @@ function OrderPayment() {
 
   if (!order || !order.items?.length) {
     return (
-      <main className="min-h-screen bg-gray-50 p-8 text-center">
+      <main className="min-h-screen bg-cream p-8 text-center">
         <h1 className="text-2xl font-bold">
           No pending order
         </h1>
-        <p className="mt-3 text-gray-600">
+        <p className="mt-3 text-muted">
           Please complete your cart first.
         </p>
         <button
           onClick={() => goTo("cart")}
-          className="mt-6 rounded-lg bg-black px-5 py-3 text-white"
+          className="mt-6 rounded-lg bg-clay px-5 py-3 text-white"
         >
           Back to cart
         </button>
@@ -163,13 +163,13 @@ function OrderPayment() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-10">
+    <main className="min-h-screen bg-cream px-4 py-10">
       <div className="mx-auto max-w-6xl">
         <h1 className="text-3xl font-bold">
           Payment
         </h1>
 
-        <p className="mt-2 text-gray-600">
+        <p className="mt-2 text-muted">
           Step 2 of 2 – Pay to place your order
         </p>
 
@@ -192,7 +192,7 @@ function OrderPayment() {
                   <span className="block font-medium">
                     Credit / debit card
                   </span>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-muted">
                     Visa, Mastercard, mada
                   </span>
                 </span>
@@ -210,7 +210,7 @@ function OrderPayment() {
                   <span className="block font-medium">
                     Apple Pay
                   </span>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-muted">
                     Demo only – no actual Apple Pay
                   </span>
                 </span>
@@ -286,7 +286,7 @@ function OrderPayment() {
               </div>
             )}
 
-            <p className="mt-6 text-xs text-gray-500">
+            <p className="mt-6 text-xs text-muted">
               Demo payment only. Do not enter real card
               information. No real payment is processed
               and card details are not stored.
@@ -318,7 +318,7 @@ function OrderPayment() {
                 <span>{order.shipping} SAR</span>
               </div>
 
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-muted">
                 {order.deliveryMethod === "pickup"
                   ? "Pickup from craftsperson"
                   : `Deliver to: ${order.address?.district || ""}, ${order.address?.city || ""}`}
@@ -342,12 +342,12 @@ function OrderPayment() {
             <button
               type="button"
               onClick={handlePayment}
-              className="mt-6 w-full rounded-lg bg-black px-5 py-3 font-medium text-white"
+              className="mt-6 w-full rounded-lg bg-clay px-5 py-3 font-medium text-white"
             >
               Pay {order.total} SAR
             </button>
 
-            <p className="mt-3 text-center text-xs text-gray-500">
+            <p className="mt-3 text-center text-xs text-muted">
               Demo only. No real money will be charged.
             </p>
 

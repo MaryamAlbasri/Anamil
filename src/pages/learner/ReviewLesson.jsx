@@ -67,7 +67,7 @@ function ReviewLesson() {
 
   if (!booking) {
     return (
-      <main className="min-h-screen bg-gray-50 p-8 text-center">
+      <main className="min-h-screen bg-cream p-8 text-center">
         <h1 className="text-2xl font-bold">
           Booking not found
         </h1>
@@ -83,11 +83,11 @@ function ReviewLesson() {
 
   if (booking.status !== "Completed") {
     return (
-      <main className="min-h-screen bg-gray-50 p-8 text-center">
+      <main className="min-h-screen bg-cream p-8 text-center">
         <h1 className="text-2xl font-bold">
           Review unavailable
         </h1>
-        <p className="mt-3 text-gray-600">
+        <p className="mt-3 text-muted">
           You can review a lesson only after it is completed.
         </p>
         <a
@@ -102,7 +102,7 @@ function ReviewLesson() {
 
   if (submitted || alreadyReviewed) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-gray-50 p-6">
+      <main className="flex min-h-screen items-center justify-center bg-cream p-6">
         <Card className="w-full max-w-md text-center">
           <div className="mb-4 text-4xl text-green-600">
             ✓
@@ -112,14 +112,14 @@ function ReviewLesson() {
               ? "Review submitted!"
               : "Already reviewed"}
           </h1>
-          <p className="mt-3 text-gray-600">
+          <p className="mt-3 text-muted">
             {submitted
               ? "Thank you for sharing your experience."
               : "You have already reviewed this lesson."}
           </p>
           <a
             href="/my-bookings"
-            className="mt-6 inline-block rounded-lg bg-black px-5 py-3 text-white"
+            className="mt-6 inline-block rounded-lg bg-clay px-5 py-3 text-white"
           >
             Back to My Bookings
           </a>
@@ -129,11 +129,11 @@ function ReviewLesson() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-10">
+    <main className="min-h-screen bg-cream px-4 py-10">
       <div className="mx-auto max-w-xl">
         <a
           href={`/my-bookings/${bookingId}`}
-          className="text-sm text-gray-600 underline"
+          className="text-sm text-muted underline"
         >
           ← Back to Booking Details
         </a>
@@ -143,11 +143,11 @@ function ReviewLesson() {
             Review your lesson
           </h1>
 
-          <p className="mt-2 text-gray-600">
+          <p className="mt-2 text-muted">
             {booking.lesson}
           </p>
 
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-muted">
             With {booking.craftsperson}
           </p>
 
@@ -202,7 +202,7 @@ function ReviewLesson() {
               className="mt-3 w-full rounded-lg border border-gray-300 p-3 focus:border-gray-700 focus:outline-none"
             />
 
-            <p className="mt-1 text-right text-xs text-gray-500">
+            <p className="mt-1 text-right text-xs text-muted">
               {comment.length}/500
             </p>
 
@@ -214,7 +214,7 @@ function ReviewLesson() {
 
             <button
               type="submit"
-              className="mt-6 w-full rounded-lg bg-black px-5 py-3 font-medium text-white hover:bg-gray-800"
+              className="mt-6 w-full rounded-lg bg-clay px-5 py-3 font-medium text-white hover:bg-gray-800"
             >
               Submit Review
             </button>
