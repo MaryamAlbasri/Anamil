@@ -58,7 +58,7 @@ export default function Products() {
     if (invalid) {
       setErrors((previous) => ({
         ...previous,
-        photos: "Only JPG or PNG images up to 5 MB are allowed.",
+        photos: "Only JPG or PNG images up to 5 MB are allowed. ",
       }));
       return;
     }
