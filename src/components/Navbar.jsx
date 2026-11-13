@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-
+import { Link, NavLink } from 'react-router-dom'
 import crafts from '../data/crafts'
+
+const active = ({ isActive }) => (isActive ? 'text-clay' : '')
+
 export default function Navbar() {
   const [open, setOpen] = useState(false)
 
@@ -9,8 +11,10 @@ export default function Navbar() {
     <header className="bg-white">
       <div className="flex items-center justify-between px-6 py-6 md:px-10">
         <nav className="hidden gap-7 text-sm font-medium text-ink md:flex">
-          <Link to="/browse">Hobbies</Link>
-          <Link to="/about">About us</Link>
+          <NavLink to="/" end className={active}>Home</NavLink>
+          <NavLink to="/browse" className={active}>Hobbies</NavLink>
+          <NavLink to="/about" className={active}>About us</NavLink>
+          <NavLink to="/how-it-works" className={active}>How it works</NavLink>
         </nav>
 
         <button className="text-2xl md:hidden" onClick={() => setOpen(!open)}>
@@ -22,16 +26,17 @@ export default function Navbar() {
         </Link>
 
         <div className="flex items-center gap-6 text-sm font-medium text-ink">
-          <Link to="/login" className="hidden md:block">Account</Link>
-          <Link to="/cart">Cart</Link>
+          <NavLink to="/login" className={({ isActive }) => `hidden md:block ${isActive ? 'text-clay' : ''}`}>Account</NavLink>
+          <NavLink to="/cart" className={active}>Cart</NavLink>
         </div>
       </div>
 
       {open && (
         <nav className="flex flex-col gap-4 border-t border-cream px-6 py-4 text-ink md:hidden">
-          <Link to="/browse" onClick={() => setOpen(false)}>Hobbies</Link>
-          <Link to="/about" onClick={() => setOpen(false)}>About us</Link>
-          <Link to="/login" onClick={() => setOpen(false)}>Account</Link>
+          <NavLink to="/" end className={active} onClick={() => setOpen(false)}>Home</NavLink>
+          <NavLink to="/browse" className={active} onClick={() => setOpen(false)}>Hobbies</NavLink>
+          <NavLink to="/about" className={active} onClick={() => setOpen(false)}>About us</NavLink>
+          <NavLink to="/login" className={active} onClick={() => setOpen(false)}>Account</NavLink>
         </nav>
       )}
 
@@ -41,16 +46,12 @@ export default function Navbar() {
           <span>🔍</span>
         </Link>
       </div>
-      
+
       <nav className="flex gap-6 overflow-x-auto border-b border-cream px-6 py-4 text-ink md:justify-center md:gap-8">
         {crafts.slice(0, 7).map((c) => (
-          <Link key={c.id} to={`/browse?craft=${c.id}`} className="whitespace-nowrap">
-            {c.name}
-          </Link>
+          <Link key={c.id} to={`/browse?craft=${c.id}`} className="whitespace-nowrap">{c.name}</Link>
         ))}
-        <Link to="/browse" className="whitespace-nowrap font-medium text-clay">
-          All hobbies →
-        </Link>
+        <Link to="/browse" className="whitespace-nowrap font-medium text-clay">All hobbies →</Link>
       </nav>
     </header>
   )
