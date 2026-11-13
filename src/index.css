@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+@theme {
+  --color-clay: #A8553A;
+  --color-ink: #2A211C;
+  --color-cream: #F8F4EF;
+  --color-blush: #F3D9CC;
+  --color-gold: #F2B97A;
+  --color-muted: #8A7A70;
+  --font-sans: "DM Sans", sans-serif;
+  --font-serif: "Instrument Serif", serif;
+}
