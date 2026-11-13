@@ -1,3 +1,2 @@
-export default function LessonPayment() {
-  return <h1>LessonPayment page</h1>;
-}
+
+export { default } from "./learner/LessonPayment";

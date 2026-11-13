@@ -1,3 +1,2 @@
-export default function Cart() {
-  return <h1>Cart page</h1>;
-}
+
+export { default } from "./learner/Cart";

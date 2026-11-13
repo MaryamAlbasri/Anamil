@@ -1,3 +1,2 @@
-export default function OrderConfirmation() {
-  return <h1>OrderConfirmation page</h1>;
-}
+
+export { default } from "./learner/OrderConfirmation";
