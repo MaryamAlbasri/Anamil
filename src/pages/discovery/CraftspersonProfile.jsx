@@ -9,7 +9,8 @@ export default function CraftspersonProfile() {
   const { id } = useParams()
   const person = craftspeople.find((p) => p.id === Number(id))
   const [tab, setTab] = useState('lessons')
-  const [showLogin, setShowLogin] = useState(false)
+  // Which lesson the user clicked "Book" on (null = modal closed)
+  const [bookingLessonId, setBookingLessonId] = useState(null)
 
   if (!person) {
     return (
@@ -43,8 +44,11 @@ export default function CraftspersonProfile() {
 
         <nav className="mt-12 flex gap-8 border-b border-cream">
           {['lessons', 'shop', 'reviews'].map((t) => (
-            <button key={t} onClick={() => setTab(t)}
-              className={`pb-3 capitalize ${tab === t ? 'border-b-2 border-clay font-medium text-ink' : 'text-muted'}`}>
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              className={`pb-3 capitalize ${tab === t ? 'border-b-2 border-clay font-medium text-ink' : 'text-muted'}`}
+            >
               {t}
             </button>
           ))}
@@ -61,8 +65,12 @@ export default function CraftspersonProfile() {
                 </div>
                 <div className="mt-5 flex items-center justify-between">
                   <span className="font-medium">{l.price} SAR</span>
-                  <button onClick={() => setShowLogin(true)}
-                    className="rounded-full bg-clay px-5 py-2 text-sm text-white">Book</button>
+                  <button
+                    onClick={() => setBookingLessonId(l.id)}
+                    className="rounded-full bg-clay px-5 py-2 text-sm text-white"
+                  >
+                    Book
+                  </button>
                 </div>
               </div>
             ))}
@@ -72,19 +80,27 @@ export default function CraftspersonProfile() {
         {tab === 'reviews' && <p className="mt-8 text-muted">"Patient and inspiring teacher!" ★★★★★</p>}
       </main>
 
-      {showLogin && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50 p-6"
-          onClick={() => setShowLogin(false)}>
+      {bookingLessonId && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black/50 p-6"
+          onClick={() => setBookingLessonId(null)}
+        >
           <div className="w-full max-w-md rounded-2xl bg-white p-8" onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between">
               <h2 className="text-xl font-medium text-ink">Log in to book this lesson</h2>
-              <button onClick={() => setShowLogin(false)}>✕</button>
+              <button onClick={() => setBookingLessonId(null)}>✕</button>
             </div>
             <p className="mt-3 text-muted">Create a free account to book lessons and buy from craftspeople.</p>
             <div className="mt-6 grid grid-cols-2 gap-3">
               <Link to="/login" className="rounded-full bg-clay py-3 text-center text-white">Log in</Link>
               <Link to="/signup" className="rounded-full border border-ink py-3 text-center">Sign up</Link>
             </div>
+            <Link
+              to={`/lessons/${bookingLessonId}`}
+              className="mt-4 block text-center text-sm text-clay"
+            >
+              Continue to booking (demo) →
+            </Link>
           </div>
         </div>
       )}
