@@ -1,3 +1,17 @@
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
+import HeroSlideshow from '../components/HeroSlideshow'
+import HobbyBento from '../components/HobbyBento'
+import TeachersRow from '../components/TeachersRow'
+
 export default function Home() {
-  return <h1 className="font-serif text-5xl text-clay p-10">Home page</h1>;
+  return (
+    <>
+      <Navbar />
+      <HeroSlideshow />
+      <HobbyBento />
+      <TeachersRow />
+      <Footer />
+    </>
+  )
 }
