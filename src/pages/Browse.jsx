@@ -8,10 +8,18 @@ import crafts from '../data/crafts'
 const cities = [...new Set(craftspeople.map((p) => p.city))]
 
 export default function Browse() {
-  const [searchParams] = useSearchParams()
-  const [craft, setCraft] = useState(searchParams.get('craft') || 'all')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const craft = searchParams.get('craft') || 'all'
   const [city, setCity] = useState('all')
   const [maxPrice, setMaxPrice] = useState(500)
+
+  function setCraft(value) {
+    if (value === 'all') {
+      setSearchParams({})
+    } else {
+      setSearchParams({ craft: value })
+    }
+  }
 
   const results = craftspeople.filter(
     (p) =>
@@ -21,7 +29,7 @@ export default function Browse() {
   )
 
   function clearFilters() {
-    setCraft('all')
+    setSearchParams({})
     setCity('all')
     setMaxPrice(500)
   }
@@ -64,7 +72,9 @@ export default function Browse() {
         </aside>
 
         <section>
-          <p className="mb-6 text-muted">{results.length} teachers found</p>
+          <p className="mb-6 text-muted">
+            {results.length} {results.length === 1 ? 'teacher' : 'teachers'} found
+          </p>
 
           {results.length === 0 ? (
             <div className="flex flex-col items-center rounded-3xl bg-cream py-20 text-center">
