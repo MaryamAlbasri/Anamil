@@ -66,11 +66,16 @@ No API keys or environment variables are needed for this phase.
 | How it works | `/how-it-works` |
 | About us | `/about` |
 | Sign up / Log in | `/signup`, `/login` |
-| Cart | `/cart` |
+| Lesson details & booking | `/lessons/1` |
+| Lesson payment | `/lessons/1/payment` |
+| Starter checklist | `/lessons/1/checklist` |
+| My bookings | `/my-bookings` (details: `/my-bookings/4821`) |
+| Cart, checkout, confirmation | `/cart`, `/checkout/payment`, `/order-confirmation` |
 | Craftsperson dashboard | `/dashboard/profile`, `/dashboard/lessons`, `/dashboard/bookings`, `/dashboard/products`, `/dashboard/orders` |
 | Admin panel | `/admin/verification`, `/admin/reports`, `/admin/crafts` |
 
 **Try these:**
+- On a lesson page, pick a date and time, then continue to payment to finish a booking.
 - On Home, type *"something calm and quiet for my weekends"* in the search and press **Find**.
 - In the AI finder, include the word **error** in your description to see the error state.
 - On a teacher profile, click **Book** to see the login-required modal.
@@ -79,3 +84,27 @@ No API keys or environment variables are needed for this phase.
 Data resets when the page reloads, since it is sample data for the prototype.
 
 ## Project structure
+
+```
+src/
+├── components/   Reusable UI (Navbar, Footer, Button, Card, Modal, ...)
+├── data/         Sample data (craftspeople, lessons, bookings, orders, products, users)
+├── pages/
+│   ├── discovery/  Home, Browse, AI finder, teacher profile, About, How it works, 404
+│   ├── admin/      Verification, reports, crafts list
+│   ├── learner/    Lesson booking, payment, checklist, bookings, cart, orders
+│   └── ...         Accounts and craftsperson dashboard pages
+├── App.jsx       Route table
+├── index.css     Tailwind import and theme colors (clay, ink, cream, blush, gold, muted)
+└── main.jsx      App entry point
+public/images/    Logo and hobby photos
+AI_USAGE.md       AI usage declaration for this phase
+```
+
+## Team
+
+| Member | Role | Area |
+|--------|------|------|
+| Maryam Albasri | Team lead, discovery and admin | Home, AI finder, Browse, teacher profile, How it works, About, admin pages, 404 |
+| Walaa | Accounts and craftsperson | Sign up, log in, password reset, craftsperson dashboard pages, shared Button/Input/Tag |
+| Hawra Alyousif | Learner flow | Lesson details and booking, payment, starter checklist, my bookings, cart, checkout and order pages |

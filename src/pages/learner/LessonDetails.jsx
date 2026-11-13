@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { lessons } from "../../data/lessons";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import Card from "../../components/Card";
 
 function LessonDetails() {
-  const lesson = lessons[0];
+  const { id } = useParams();
+  const lesson = lessons.find((item) => item.id === Number(id)) || lessons[0];
   const navigate = useNavigate();
 
   const [selectedDate, setSelectedDate] = useState("");
