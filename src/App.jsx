@@ -29,6 +29,14 @@ import Cart from './pages/Cart'
 import OrderPayment from './pages/OrderPayment'
 import OrderConfirmation from './pages/OrderConfirmation'
 
+import BookingSuccess from './pages/learner/BookingSuccess'
+import BookingSlotTaken from './pages/learner/BookingSlotTaken'
+import PaymentFailed from './pages/learner/PaymentFailed'
+import BookingDetails from './pages/learner/BookingDetails'
+import CancelBooking from './pages/learner/CancelBooking'
+import ReviewLesson from './pages/learner/ReviewLesson'
+import OrderDetails from './pages/learner/OrderDetails'
+
 export default function App() {
   return (
     <Routes>
@@ -58,6 +66,35 @@ export default function App() {
       <Route path="/cart" element={<Cart />} />
       <Route path="/checkout/payment" element={<OrderPayment />} />
       <Route path="/order-confirmation" element={<OrderConfirmation />} />
+
+      <Route
+        path="/booking-success"
+        element={<BookingSuccess />}
+      />
+      <Route
+        path="/slot-taken"
+        element={<BookingSlotTaken />}
+      />
+      <Route
+        path="/payment-failed"
+        element={<PaymentFailed />}
+      />
+      <Route
+        path="/my-bookings/:id"
+        element={<BookingDetails />}
+      />
+      <Route
+        path="/my-bookings/:id/cancel"
+        element={<CancelBooking />}
+      />
+      <Route
+        path="/my-bookings/:id/review"
+        element={<ReviewLesson />}
+      />
+      <Route
+        path="/orders/:id"
+        element={<OrderDetails />}
+      />
 
       <Route path="*" element={<NotFound />} />
     </Routes>

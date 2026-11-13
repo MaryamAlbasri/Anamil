@@ -1,3 +1,2 @@
-export default function MyBookings() {
-  return <h1>MyBookings page</h1>;
-}
+
+export { default } from "./learner/MyBookings";
