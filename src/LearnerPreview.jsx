@@ -5,6 +5,10 @@ import BookingSuccess from "./pages/learner/BookingSuccess";
 import LessonPayment from "./pages/learner/LessonPayment";
 import PaymentFailed from "./pages/learner/PaymentFailed";
 import WhatToBuy from "./pages/learner/WhatToBuy";
+import MyBookings from "./pages/learner/MyBookings";
+import BookingDetails from "./pages/learner/BookingDetails";
+import CancelBooking from "./pages/learner/CancelBooking";
+import ReviewLesson from "./pages/learner/ReviewLesson";
 
 function LearnerPreview() {
   const params = new URLSearchParams(window.location.search);
@@ -25,6 +29,18 @@ function LearnerPreview() {
 
     case "what-to-buy":
       return <WhatToBuy />;
+
+    case "my-bookings":
+      return <MyBookings />;
+
+    case "booking-details":
+      return <BookingDetails />;
+
+    case "cancel-booking":
+      return <CancelBooking />;
+
+    case "review-lesson":
+      return <ReviewLesson />;
 
     default:
       return <LessonDetails />;
