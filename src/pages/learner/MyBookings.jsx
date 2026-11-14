@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { bookings } from "../../data/bookings";
-
+// AI Assistance: ChatGPT helped integrate shared booking data.
+import { useBookings } from "../../context/BookingContext";
 const CANCELLED_KEY = "anamil-cancelled-bookings";
 
 const statusStyles = {
@@ -47,15 +47,14 @@ function getLessonStart(booking) {
 }
 
 function MyBookings() {
+  // AI Assistance: ChatGPT helped connect MyBookings to shared booking state.
+  const { bookings } = useBookings();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("upcoming");
-  const [cancelledIds] = useState(getCancelledIds);
   const [cancelErrorId, setCancelErrorId] = useState(null);
 
-  const allBookings = bookings.map((booking) => ({
-    ...booking,
-    status: cancelledIds.includes(booking.id) ? "Cancelled" : booking.status,
-  }));
+  // AI Assistance: ChatGPT helped use shared booking statuses.
+  const allBookings = bookings;
 
   const isUpcoming = (booking) => {
     const lessonStart = getLessonStart(booking);

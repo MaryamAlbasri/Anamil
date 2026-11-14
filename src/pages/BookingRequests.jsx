@@ -2,115 +2,109 @@
 import { useState } from "react";
 import Button from "../components/Button";
 import Tag from "../components/Tag";
+import { useBookings } from "../context/BookingContext.jsx";
 
-// AI Assistance: ChatGPT helped implement the Booking Requests
-// page, including mock data, status management, validation,
-// and simulated notifications and refunds.
+// AI Assistance: ChatGPT helped integrate BookingRequests
+// with shared booking data, status updates, and validations.
 
-function createDemoBookings() {
-  const future = new Date();
-  future.setDate(future.getDate() + 7);
+function getTagVariant(status) {
+  switch (status) {
+    case "Confirmed":
+    case "Completed":
+      return "success";
+    case "Declined":
+    case "Cancelled":
+      return "danger";
+    case "Pending":
+      return "pending";
+    default:
+      return "default";
+  }
+}
 
-  const past = new Date();
-  past.setDate(past.getDate() - 7);
+// For the prototype, allow completion only after the lesson date.
+function hasLessonDatePassed(date) {
+  if (!date) return false;
 
-  return [
-    {
-      id: 1,
-      learner: "Sara Ahmed",
-      lesson: "Pottery for Beginners",
-      date: future.toISOString(),
-      note: "This is my first pottery class.",
-      price: 150,
-      status: "pending",
-      reason: "",
-    },
-    {
-      id: 2,
-      learner: "Fatima Ali",
-      lesson: "Calligraphy Workshop",
-      date: future.toISOString(),
-      note: "I would like to learn Arabic calligraphy.",
-      price: 120,
-      status: "pending",
-      reason: "",
-    },
-    {
-      id: 3,
-      learner: "Noura Ahmed",
-      lesson: "Handmade Pottery",
-      date: past.toISOString(),
-      note: "Looking forward to this workshop.",
-      price: 100,
-      status: "confirmed",
-      reason: "",
-    },
-  ];
+  const lessonDate = new Date(`${date.slice(0, 10)}T00:00:00`);
+
+  if (Number.isNaN(lessonDate.getTime())) {
+    return false;
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return lessonDate < today;
 }
 
 export default function BookingRequests() {
-  const [bookings, setBookings] = useState(createDemoBookings);
+  const { bookings, updateBookingStatus } = useBookings();
+
   const [decliningId, setDecliningId] = useState(null);
   const [declineReason, setDeclineReason] = useState("");
   const [message, setMessage] = useState("");
 
   function acceptBooking(id) {
-    setBookings((previous) =>
-        previous.map((booking) =>
-            booking.id === id && booking.status === "pending"
-                ? { ...booking, status: "confirmed" }
-                : booking
-        )
-    );
+    const booking = bookings.find((item) => item.id === id);
 
-    setMessage("Booking accepted. Demo notification created.");
+    if (!booking || booking.status !== "Pending") {
+      setMessage("This booking cannot be accepted.");
+      return;
+    }
+
+    updateBookingStatus(id, "Confirmed");
+    setMessage("Booking confirmed successfully (demo).");
   }
 
   function startDecline(id) {
+    const booking = bookings.find((item) => item.id === id);
+
+    if (!booking || booking.status !== "Pending") return;
+
     setDecliningId(id);
     setDeclineReason("");
     setMessage("");
   }
 
   function confirmDecline() {
-    setBookings((previous) =>
-        previous.map((booking) =>
-            booking.id === decliningId && booking.status === "pending"
-                ? {
-                  ...booking,
-                  status: "declined",
-                  reason: declineReason.trim(),
-                }
-                : booking
-        )
+    const booking = bookings.find(
+        (item) => item.id === decliningId
+    );
+
+    if (!booking || booking.status !== "Pending") {
+      setDecliningId(null);
+      return;
+    }
+
+    updateBookingStatus(
+        decliningId,
+        "Declined",
+        declineReason
     );
 
     setDecliningId(null);
     setDeclineReason("");
+
     setMessage(
-        "Booking declined. Notification and refund are simulated only."
+        "Booking declined. Refund and notification are simulated."
     );
   }
 
   function markCompleted(id) {
-    setBookings((previous) =>
-        previous.map((booking) =>
-            booking.id === id &&
-            booking.status === "confirmed" &&
-            new Date(booking.date) <= new Date()
-                ? { ...booking, status: "completed" }
-                : booking
-        )
-    );
+    const booking = bookings.find((item) => item.id === id);
 
-    setMessage("Lesson marked as completed.");
-  }
+    if (
+        !booking ||
+        booking.status !== "Confirmed" ||
+        !hasLessonDatePassed(booking.date)
+    ) {
+      setMessage("This lesson cannot be completed yet.");
+      return;
+    }
 
-  function getTagVariant(status) {
-    if (status === "confirmed") return "success";
-    if (status === "declined") return "danger";
-    if (status === "completed") return "success";
-    return "pending";
+    updateBookingStatus(id, "Completed");
+    setMessage("Lesson marked as completed (demo).");
   }
 
   return (
@@ -134,31 +128,50 @@ export default function BookingRequests() {
           )}
 
           <div className="mb-6 grid gap-4 sm:grid-cols-3">
-            {["pending", "confirmed", "completed"].map((status) => (
-                <div
-                    key={status}
-                    className="rounded-xl bg-white p-5 shadow-sm"
-                >
-                  <p className="text-sm capitalize text-muted">
-                    {status}
-                  </p>
-                  <p className="mt-2 text-3xl font-semibold">
-                    {bookings.filter((b) => b.status === status).length}
-                  </p>
-                </div>
-            ))}
+            {["Pending", "Confirmed", "Completed"].map(
+                (status) => (
+                    <div
+                        key={status}
+                        className="rounded-xl bg-white p-5 shadow-sm"
+                    >
+                      <p className="text-sm text-muted">
+                        {status}
+                      </p>
+
+                      <p className="mt-2 text-3xl font-semibold">
+                        {
+                          bookings.filter(
+                              (booking) => booking.status === status
+                          ).length
+                        }
+                      </p>
+                    </div>
+                )
+            )}
           </div>
 
           <section className="space-y-4">
+            {bookings.length === 0 && (
+                <p className="rounded-xl bg-white p-6 text-muted">
+                  No booking requests found.
+                </p>
+            )}
+
             {bookings.map((booking) => (
                 <article
                     key={booking.id}
                     className="rounded-2xl bg-white p-6 shadow-sm"
                 >
                   <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-                    <h2 className="text-xl font-semibold">
-                      {booking.learner}
-                    </h2>
+                    <div>
+                      <h2 className="text-xl font-semibold">
+                        Booking #{booking.id}
+                      </h2>
+
+                      <p className="text-sm text-muted">
+                        Learner ID: {booking.learnerId ?? "N/A"}
+                      </p>
+                    </div>
 
                     <Tag variant={getTagVariant(booking.status)}>
                       {booking.status}
@@ -167,28 +180,57 @@ export default function BookingRequests() {
 
                   <div className="space-y-2 text-sm">
                     <p>
-                      <strong>Lesson:</strong> {booking.lesson}
+                      <strong>Lesson:</strong>{" "}
+                      {booking.lesson ?? "N/A"}
                     </p>
+
+                    <p>
+                      <strong>Craftsperson:</strong>{" "}
+                      {booking.craftsperson ?? "N/A"}
+                    </p>
+
                     <p>
                       <strong>Date:</strong>{" "}
-                      {new Date(booking.date).toLocaleString()}
-                    </p>
-                    <p>
-                      <strong>Price:</strong> {booking.price} SAR
-                    </p>
-                    <p>
-                      <strong>Learner note:</strong> {booking.note}
+                      {booking.date ?? "N/A"}
                     </p>
 
-                    {booking.status === "declined" && booking.reason && (
-                        <p className="text-red-600">
-                          <strong>Decline reason:</strong>{" "}
-                          {booking.reason}
+                    <p>
+                      <strong>Time:</strong>{" "}
+                      {booking.time ?? "N/A"}
+                    </p>
+
+                    <p>
+                      <strong>Location:</strong>{" "}
+                      {booking.location ?? "N/A"}
+                    </p>
+
+                    <p>
+                      <strong>Price:</strong>{" "}
+                      {booking.price ?? 0} SAR
+                    </p>
+
+                    <p>
+                      <strong>Payment:</strong>{" "}
+                      {booking.paymentStatus ?? "N/A"}
+                    </p>
+
+                    {booking.note && (
+                        <p>
+                          <strong>Learner note:</strong>{" "}
+                          {booking.note}
                         </p>
                     )}
+
+                    {booking.status === "Declined" &&
+                        booking.declineReason && (
+                            <p className="text-red-600">
+                              <strong>Decline reason:</strong>{" "}
+                              {booking.declineReason}
+                            </p>
+                        )}
                   </div>
 
-                  {booking.status === "pending" && (
+                  {booking.status === "Pending" && (
                       <div className="mt-5 flex flex-wrap gap-3">
                         <Button
                             onClick={() => acceptBooking(booking.id)}
@@ -205,8 +247,8 @@ export default function BookingRequests() {
                       </div>
                   )}
 
-                  {booking.status === "confirmed" &&
-                      new Date(booking.date) <= new Date() && (
+                  {booking.status === "Confirmed" &&
+                      hasLessonDatePassed(booking.date) && (
                           <div className="mt-5">
                             <Button
                                 onClick={() => markCompleted(booking.id)}
@@ -249,18 +291,25 @@ export default function BookingRequests() {
                       }
                       maxLength={500}
                       rows={4}
-                      placeholder="Explain why you are declining..."
+                      placeholder="Reason for declining..."
                       className="anamil-input"
                   />
 
-                  <div className="mt-5 flex gap-3">
-                    <Button onClick={confirmDecline}>
+                  <div className="mt-5 flex flex-wrap gap-3">
+                    <Button
+                        type="button"
+                        onClick={confirmDecline}
+                    >
                       Confirm Decline
                     </Button>
 
                     <Button
+                        type="button"
                         variant="secondary"
-                        onClick={() => setDecliningId(null)}
+                        onClick={() => {
+                          setDecliningId(null);
+                          setDeclineReason("");
+                        }}
                     >
                       Cancel
                     </Button>
