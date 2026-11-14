@@ -2,7 +2,9 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { getBookingById } from "../../data/bookings";
+// AI Assistance: ChatGPT helped connect lesson reviews
+// to the shared BookingContext.
+import { useBookings } from "../../context/BookingContext.jsx";
 
 const STORAGE_KEY = "anamil-lesson-reviews";
 const ratingWords = ["", "Poor", "Okay", "Good", "Very good", "Loved it!"];
@@ -19,6 +21,9 @@ function Page({ children }) {
 }
 
 function ReviewLesson() {
+  // AI Assistance: ChatGPT helped use the latest booking status.
+  const { getBookingById } = useBookings();
+
   const location = useLocation();
   const bookingId = Number(location.pathname.split("/")[2]);
   const booking = getBookingById(bookingId);
@@ -40,6 +45,10 @@ function ReviewLesson() {
   const alreadyReviewed = existingReviews.some((review) => review.bookingId === bookingId);
 
   const handleSubmit = (event) => {
+    if (!booking || booking.status !== "Completed" || alreadyReviewed || submitted) {
+      setError("This booking is not eligible for a review.");
+      return;
+    }
     event.preventDefault();
     if (rating === 0) {
       setError("Please select a star rating.");
