@@ -2,7 +2,11 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { getBookingById } from "../../data/bookings";
+// AI Assistance: ChatGPT helped connect booking details
+// to the shared BookingContext.
+import { useBookings } from "../../context/BookingContext.jsx";
+
+
 
 // Same status colors as My bookings
 const statusStyles = {
@@ -10,25 +14,22 @@ const statusStyles = {
   Confirmed: "bg-green-100 text-green-700",
   Completed: "bg-blush text-clay",
   Cancelled: "bg-red-100 text-red-700",
+  Declined: "bg-cream text-muted",
 };
 
 function BookingDetails() {
+  const { getBookingById } = useBookings();
+
   const location = useLocation();
   const [showMore, setShowMore] = useState(false);
 
   const bookingId = location.pathname.split("/")[2];
   const booking = getBookingById(bookingId);
 
-  const [cancelledIds] = useState(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem("anamil-cancelled-bookings") || "[]");
-      return Array.isArray(saved) ? saved : [];
-    } catch {
-      return [];
-    }
-  });
 
-  const status = booking ? (cancelledIds.includes(booking.id) ? "Cancelled" : booking.status) : null;
+
+
+  const status = booking?.status ?? null;
 
   const formatDate = (date) =>
     new Date(`${date}T12:00:00`).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
