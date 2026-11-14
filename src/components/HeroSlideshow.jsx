@@ -66,7 +66,7 @@ export default function HeroSlideshow() {
             className={`h-1 w-6 rounded md:w-8 ${i === current ? 'bg-white' : 'bg-white/35'}`} />
         ))}
       </div>
-      <p className="absolute bottom-6 right-6 hidden rounded-full bg-black/45 px-4 py-2 text-xs text-white md:block">
+      <p className="absolute bottom-6 right-6 hidden rounded-full bg-clay/45 px-4 py-2 text-xs text-white md:block">
         {slides[current].caption}
       </p>
     </section>

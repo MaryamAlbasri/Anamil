@@ -1,315 +1,233 @@
-
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { lessons } from "../../data/lessons";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import Card from "../../components/Card";
-import potteryImage from "../../assets/lessons/pottery.jpg";
+
 function LessonDetails() {
   const lesson = lessons[0];
+  const navigate = useNavigate();
 
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [note, setNote] = useState("");
+
+  // Start the calendar on the month of the first available slot
+  const [firstYear, firstMonth] = lesson.availableSlots[0].date.split("-");
   const [calendarMonth, setCalendarMonth] = useState(
-  new Date(2026, 9, 1)
-    );  
+    new Date(Number(firstYear), Number(firstMonth) - 1, 1)
+  );
 
-    const availableDates = [
-    ...new Set(lesson.availableSlots.map((slot) => slot.date))
-    ];
+  const availableDates = [...new Set(lesson.availableSlots.map((slot) => slot.date))];
+  const slotsForSelectedDate = lesson.availableSlots.filter((slot) => slot.date === selectedDate);
 
-
-    const slotsForSelectedDate = lesson.availableSlots.filter(
-    (slot) => slot.date === selectedDate
-    );
-    const year = calendarMonth.getFullYear();
-    const month = calendarMonth.getMonth();
-
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    const calendarDays = [
+  const year = calendarMonth.getFullYear();
+  const month = calendarMonth.getMonth();
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const calendarDays = [
     ...Array(firstDay).fill(null),
-    ...Array.from(
-        { length: daysInMonth },
-        (_, index) => index + 1
-    )
-    ];
+    ...Array.from({ length: daysInMonth }, (_, index) => index + 1),
+  ];
 
+  function handleContinue() {
+    const selectedSlot = lesson.availableSlots.find(
+      (slot) => slot.date === selectedDate && slot.time === selectedTime
+    );
 
+    sessionStorage.setItem(
+      "pendingBooking",
+      JSON.stringify({ lessonId: lesson.id, date: selectedDate, time: selectedTime, note, price: lesson.price })
+    );
+
+    // Demo: simulate a slot becoming unavailable
+    const simulateSlotTaken = sessionStorage.getItem("simulateSlotTaken") === "true";
+
+    if (!selectedSlot || selectedSlot.seatsLeft === 0 || simulateSlotTaken) {
+      sessionStorage.removeItem("simulateSlotTaken");
+      navigate("/slot-taken");
+      return;
+    }
+
+    navigate(`/lessons/${lesson.id}/payment`);
+  }
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <>
+      <Navbar />
 
-        {/* Lesson Information */}
-        <div>
-            <img
-            src={potteryImage}
-            alt="Wheel throwing pottery lesson"
-            className="w-full h-64 object-cover rounded-lg mb-4"
-            />
-          <h1 className="text-2xl font-bold mb-4">
-            {lesson.title}
-          </h1>
-          <div className="flex flex-wrap items-center gap-3 mb-4">
-            <span className="font-medium">
-                {lesson.craftspersonName}
-            </span>
+      <main className="bg-cream">
+        <div className="mx-auto max-w-6xl px-6 py-10">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
 
-            <span className="text-orange-600">
-                ★ {lesson.rating}
-            </span>
+            {/* Lesson information */}
+            <div>
+              <img
+                src="/images/pottery.png"
+                alt="Wheel throwing pottery lesson"
+                className="mb-5 h-64 w-full rounded-3xl object-cover"
+              />
 
-            <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">
-                {lesson.level}
-            </span>
+              <h1 className="mb-3 font-serif text-4xl italic text-ink">{lesson.title}</h1>
 
-            <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">
-                {lesson.duration}
-            </span>
+              <div className="mb-4 flex flex-wrap items-center gap-3 text-sm">
+                <span className="font-medium text-ink">{lesson.craftspersonName}</span>
+                <span className="text-clay">★ {lesson.rating}</span>
+                <span className="rounded-full bg-white px-3 py-1 text-ink">{lesson.level}</span>
+                <span className="rounded-full bg-white px-3 py-1 text-ink">{lesson.duration}</span>
+                <span className="rounded-full bg-white px-3 py-1 text-ink">Max {lesson.maxLearners} learners</span>
+              </div>
 
-            <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">
-                Max {lesson.maxLearners} learners
-            </span>
-            </div>
+              <div className="mt-6">
+                <h2 className="mb-2 text-lg font-medium text-ink">About this lesson</h2>
+                <p className="leading-relaxed text-muted">{lesson.description}</p>
+              </div>
 
-          
-
-        
-
-        <div className="mt-6">
-        <h2 className="text-lg font-semibold mb-2">
-            About this lesson
-        </h2>
-
-        <p className="text-gray-600 leading-relaxed">
-            {lesson.description}
-        </p>
-        </div>
-
-        <div className="mt-6">
-        <h2 className="text-lg font-semibold mb-2">
-            What to bring
-        </h2>
-
-        <ul className="list-disc list-inside text-gray-600 space-y-1">
-            <li>Apron or old clothes</li>
-            <li>Small towel</li>
-            <li>Hair tie</li>
-            <li>Clay is provided</li>
-        </ul>
-
-        <a
-            href="#"
-            className="inline-block mt-3 text-sm font-medium underline"
-        >
-            See full starter list →
-        </a>
-        </div>
-
-
-
-
-          <p>Price: {lesson.price} SAR</p>
-          <p>Duration: {lesson.duration}</p>
-          <p>Location: {lesson.location}</p>
-          <p>Rating: {lesson.rating}</p>
-        </div>
-
-        {/* Booking Section */}
-        <Card>
-          <h2 className="text-xl font-semibold mb-4">
-            Book This Lesson
-          </h2>
-
-          <label className="block mb-2">Select Date</label>
-
-            <div className="mb-5">
-            <div className="flex items-center justify-between mb-4">
-                <button
-                type="button"
-                onClick={() =>
-                    setCalendarMonth(new Date(year, month - 1, 1))
-                }
-                aria-label="Previous month"
-                className="px-3 py-1 rounded hover:bg-gray-100"
+              <div className="mt-6">
+                <h2 className="mb-2 text-lg font-medium text-ink">What to bring</h2>
+                <ul className="list-inside list-disc space-y-1 text-muted">
+                  <li>Apron or old clothes</li>
+                  <li>Small towel</li>
+                  <li>Hair tie</li>
+                  <li>Clay is provided</li>
+                </ul>
+                <Link
+                  to={`/lessons/${lesson.id}/checklist`}
+                  className="mt-3 inline-block text-sm font-medium text-clay"
                 >
-                ‹
-                </button>
-
-                <h3 className="font-semibold">
-                {calendarMonth.toLocaleDateString("en-US", {
-                    month: "long",
-                    year: "numeric"
-                })}
-                </h3>
-
-                <button
-                type="button"
-                onClick={() =>
-                    setCalendarMonth(new Date(year, month + 1, 1))
-                }
-                aria-label="Next month"
-                className="px-3 py-1 rounded hover:bg-gray-100"
-                >
-                ›
-                </button>
+                  See full starter list →
+                </Link>
+              </div>
             </div>
 
-            <div className="grid grid-cols-7 gap-2 text-center mb-2">
-                {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
-                <span key={index} className="text-xs text-gray-500">
-                    {day}
-                </span>
-                ))}
-            </div>
+            {/* Booking section */}
+            <Card>
+              <h2 className="mb-1 text-xl font-medium text-ink">Book this lesson</h2>
+              <p className="mb-5 text-2xl font-medium text-clay">{lesson.price} SAR</p>
 
-            <div className="grid grid-cols-7 gap-2">
-                {calendarDays.map((day, index) => {
-                if (day === null) {
-                    return <span key={`empty-${index}`} />;
-                }
+              <label className="mb-2 block text-sm text-muted">Select a date</label>
 
-                const date = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-                const isAvailable = availableDates.includes(date);
-                const isSelected = selectedDate === date;
-
-                return (
-                    <button
-                    key={date}
+              <div className="mb-5">
+                <div className="mb-4 flex items-center justify-between">
+                  <button
                     type="button"
-                    disabled={!isAvailable}
-                    onClick={() => {
-                        setSelectedDate(date);
-                        setSelectedTime("");
-                    }}
-                    className={`aspect-square rounded-full text-sm transition
-                        ${
-                        isSelected
-                            ? "bg-gray-900 text-white"
+                    onClick={() => setCalendarMonth(new Date(year, month - 1, 1))}
+                    aria-label="Previous month"
+                    className="rounded-full px-3 py-1 hover:bg-cream"
+                  >
+                    ‹
+                  </button>
+                  <h3 className="font-medium text-ink">
+                    {calendarMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
+                  </h3>
+                  <button
+                    type="button"
+                    onClick={() => setCalendarMonth(new Date(year, month + 1, 1))}
+                    aria-label="Next month"
+                    className="rounded-full px-3 py-1 hover:bg-cream"
+                  >
+                    ›
+                  </button>
+                </div>
+
+                <div className="mb-2 grid grid-cols-7 gap-2 text-center">
+                  {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
+                    <span key={index} className="text-xs text-muted">{day}</span>
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-7 gap-2">
+                  {calendarDays.map((day, index) => {
+                    if (day === null) return <span key={`empty-${index}`} />;
+
+                    const date = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+                    const isAvailable = availableDates.includes(date);
+                    const isSelected = selectedDate === date;
+
+                    return (
+                      <button
+                        key={date}
+                        type="button"
+                        disabled={!isAvailable}
+                        onClick={() => {
+                          setSelectedDate(date);
+                          setSelectedTime("");
+                        }}
+                        className={`aspect-square rounded-full text-sm transition ${
+                          isSelected
+                            ? "bg-clay text-white"
                             : isAvailable
-                            ? "hover:bg-gray-200 text-gray-900"
-                            : "text-gray-300 cursor-not-allowed"
+                            ? "bg-blush font-medium text-ink hover:bg-gold"
+                            : "cursor-not-allowed text-muted/40"
                         }`}
+                      >
+                        {day}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="mb-5">
+                <h3 className="mb-3 text-sm text-muted">Available time slots</h3>
+
+                {!selectedDate && (
+                  <p className="text-sm text-muted">Pick a highlighted date to see times.</p>
+                )}
+
+                <div className="grid grid-cols-2 gap-3">
+                  {slotsForSelectedDate.map((slot) => (
+                    <button
+                      key={slot.time}
+                      type="button"
+                      disabled={slot.seatsLeft === 0}
+                      onClick={() => setSelectedTime(slot.time)}
+                      className={`rounded-2xl border p-3 text-left transition ${
+                        slot.seatsLeft === 0
+                          ? "cursor-not-allowed border-cream bg-cream text-muted"
+                          : selectedTime === slot.time
+                          ? "border-clay bg-clay text-white"
+                          : "border-blush hover:border-clay"
+                      }`}
                     >
-                    {day}
+                      <span className="block font-medium">{slot.time}</span>
+                      <span className="text-sm">
+                        {slot.seatsLeft === 0 ? "Full" : `${slot.seatsLeft} seats left`}
+                      </span>
                     </button>
-                );
-                })}
-            </div>
-            </div>
+                  ))}
+                </div>
 
+                {selectedDate && slotsForSelectedDate.length === 0 && (
+                  <p className="mt-3 text-sm text-muted">No available time slots for this date.</p>
+                )}
+              </div>
 
+              <label className="mb-2 block text-sm text-muted">Note to craftsperson (optional)</label>
+              <textarea
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                className="mb-5 w-full rounded-2xl border border-blush p-3 outline-none focus:border-clay"
+                placeholder="e.g. I am left-handed"
+              />
 
+              <button
+                type="button"
+                onClick={handleContinue}
+                disabled={!selectedDate || !selectedTime}
+                className="w-full rounded-full bg-clay py-3 font-medium text-white disabled:opacity-40"
+              >
+                Continue to payment
+              </button>
+            </Card>
 
+          </div>
+        </div>
+      </main>
 
-
-
-<div className="mb-4">
-  <h3 className="font-semibold mb-3">
-    Available Time Slots
-  </h3>
-
-  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-    {slotsForSelectedDate.map((slot) => (
-      <button
-        key={slot.time}
-        type="button"
-        disabled={slot.seatsLeft === 0}
-        onClick={() => setSelectedTime(slot.time)}
-        className={`border rounded-lg p-3 text-left transition
-          ${
-            slot.seatsLeft === 0
-              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-              : selectedTime === slot.time
-              ? "border-orange-600 bg-orange-50"
-              : "border-gray-300 hover:border-orange-400"
-          }`}
-      >
-        <span className="block font-medium">
-          {slot.time}
-        </span>
-
-        <span className="text-sm">
-          {slot.seatsLeft === 0
-            ? "Fully booked"
-            : `${slot.seatsLeft} seats left`}
-        </span>
-      </button>
-    ))}
-  </div>
-
-  {selectedDate && slotsForSelectedDate.length === 0 && (
-    <p className="text-sm text-gray-500 mt-3">
-      No available time slots for this date.
-    </p>
-  )}
-</div>
-
-
-
-
-
-          <label className="block mb-2">
-            Note to Craftsperson (optional)
-          </label>
-          <textarea
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            className="border rounded p-2 w-full mb-4"
-            placeholder="e.g. I am left-handed"
-          />
-
-
-            <button
-            type="button"
-            onClick={() => {
-                const selectedSlot = lesson.availableSlots.find(
-                (slot) =>
-                    slot.date === selectedDate &&
-                    slot.time === selectedTime
-                );
-
-                sessionStorage.setItem(
-                "pendingBooking",
-                JSON.stringify({
-                    lessonId: lesson.id,
-                    date: selectedDate,
-                    time: selectedTime,
-                    note: note,
-                    price: lesson.price
-                })
-                );
-
-                // Demo: simulate a slot becoming unavailable
-                const simulateSlotTaken =
-                sessionStorage.getItem("simulateSlotTaken") === "true";
-
-                if (
-                !selectedSlot ||
-                selectedSlot.seatsLeft === 0 ||
-                simulateSlotTaken
-                ) {
-                sessionStorage.removeItem("simulateSlotTaken");
-
-                window.location.href =
-                    "/slot-taken";
-                return;
-                }
-
-                window.location.href =
-                `/lessons/${lesson.id}/payment`;
-            }}
-            disabled={!selectedDate || !selectedTime}
-            className="bg-black text-white p-3 rounded w-full disabled:opacity-50"
-            >
-            Continue to Payment
-            </button>
-
-        </Card>
-
-      </div>
-    </div>
+      <Footer />
+    </>
   );
 }
 

@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import Sidebar from '../components/Sidebar'
-import craftspeople from '../data/craftspeople'
+import Sidebar from '../../components/Sidebar'
+import craftspeople from '../../data/craftspeople'
 
 export const adminLinks = [
   { to: '/admin/verification', label: 'Verification' },
@@ -55,7 +55,7 @@ export default function AdminVerification() {
       </main>
 
       {rejecting && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50 p-6">
+        <div className="fixed inset-0 flex items-center justify-center bg-clay/50 p-6">
           <div className="w-full max-w-md rounded-2xl bg-white p-8">
             <h2 className="text-xl font-medium text-ink">Reject {rejecting.name}?</h2>
             <textarea value={reason} onChange={(e) => setReason(e.target.value)}

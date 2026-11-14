@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+import Navbar from '../../components/Navbar'
+import Footer from '../../components/Footer'
 
 const rules = [
   { words: ['calm', 'relax', 'quiet', 'peace'], id: 'pottery', name: 'Pottery', reason: 'Calm, hands-on and relaxing. Ideal for weekend classes.' },

@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import Sidebar from '../components/Sidebar'
+import Sidebar from '../../components/Sidebar'
 import { adminLinks } from './AdminVerification'
-import craftsData from '../data/crafts'
+import craftsData from '../../data/crafts'
 
 export default function AdminCrafts() {
   const [crafts, setCrafts] = useState(craftsData)

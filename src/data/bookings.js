@@ -1,4 +1,3 @@
-
 export const bookings = [
   {
     id: 4821,
@@ -6,7 +5,7 @@ export const bookings = [
     learnerId: 1,
     lesson: "Wheel throwing for beginners",
     craftsperson: "Noura Alqahtani",
-    date: "2026-10-15",
+    date: "2026-12-03",
     time: "4:00 - 6:00 PM",
     location: "Al Olaya studio, Riyadh",
     price: 150,
@@ -17,29 +16,44 @@ export const bookings = [
   },
   {
     id: 4822,
-    lessonId: 2,
+    lessonId: 4,
     learnerId: 1,
-    lesson: "Sadu weaving workshop",
-    craftsperson: "Fatimah Alharbi",
+    lesson: "Intro to loom weaving",
+    craftsperson: "Lina Haddad",
     date: "2026-12-05",
     time: "5:00 - 7:00 PM",
-    location: "Riyadh",
-    price: 120,
+    location: "Amman",
+    price: 180,
     status: "Confirmed",
     paymentStatus: "paid",
     canCancel: true,
     note: ""
   },
   {
+    id: 4823,
+    lessonId: 6,
+    learnerId: 1,
+    lesson: "Camera basics: shoot in manual",
+    craftsperson: "Sara Mansour",
+    date: "2026-12-08",
+    time: "6:00 - 8:00 PM",
+    location: "Dubai",
+    price: 200,
+    status: "Confirmed",
+    paymentStatus: "paid",
+    canCancel: false,
+    note: ""
+  },
+  {
     id: 4810,
-    lessonId: 3,
+    lessonId: 5,
     learnerId: 1,
     lesson: "Arabic calligraphy basics",
-    craftsperson: "Ahmed Alqahtani",
+    craftsperson: "Omar Alsharif",
     date: "2026-09-10",
-    time: "3:00 - 5:00 PM",
-    location: "Al Khobar",
-    price: 100,
+    time: "3:00 - 4:30 PM",
+    location: "Jeddah",
+    price: 120,
     status: "Completed",
     paymentStatus: "paid",
     canCancel: false,
@@ -48,9 +62,7 @@ export const bookings = [
 ];
 
 export const getBookingById = (id) => {
-  return bookings.find(
-    (booking) => booking.id === Number(id)
-  );
+  return bookings.find((booking) => booking.id === Number(id));
 };
 
 // Supports imports used by the main application.

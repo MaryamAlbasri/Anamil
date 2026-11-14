@@ -1,207 +1,147 @@
-
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import { getBookingById } from "../../data/bookings";
 
+// Same status colors as My bookings
 const statusStyles = {
-  Pending: "bg-yellow-100 text-yellow-800",
-  Confirmed: "bg-green-100 text-green-800",
-  Completed: "bg-gray-100 text-gray-700",
-  Cancelled: "bg-red-100 text-red-700"
+  Pending: "bg-gold/30 text-ink",
+  Confirmed: "bg-green-100 text-green-700",
+  Completed: "bg-blush text-clay",
+  Cancelled: "bg-red-100 text-red-700",
 };
 
 function BookingDetails() {
+  const location = useLocation();
   const [showMore, setShowMore] = useState(false);
 
-    const bookingId = window.location.pathname.split("/")[2];
-
+  const bookingId = location.pathname.split("/")[2];
   const booking = getBookingById(bookingId);
 
   const [cancelledIds] = useState(() => {
     try {
-      const saved = JSON.parse(
-        localStorage.getItem("anamil-cancelled-bookings") || "[]"
-      );
+      const saved = JSON.parse(localStorage.getItem("anamil-cancelled-bookings") || "[]");
       return Array.isArray(saved) ? saved : [];
     } catch {
       return [];
     }
   });
 
-  const status = booking
-    ? cancelledIds.includes(booking.id)
-      ? "Cancelled"
-      : booking.status
-    : null;
+  const status = booking ? (cancelledIds.includes(booking.id) ? "Cancelled" : booking.status) : null;
 
   const formatDate = (date) =>
-    new Date(`${date}T12:00:00`).toLocaleDateString(
-      "en-GB",
-      {
-        day: "numeric",
-        month: "short",
-        year: "numeric"
-      }
-    );
+    new Date(`${date}T12:00:00`).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+
+  // One info box (label on top, value below)
+  const Info = ({ label, value }) => (
+    <div className="rounded-2xl bg-cream p-4">
+      <p className="text-xs text-muted">{label}</p>
+      <p className="mt-1 font-medium text-ink">{value}</p>
+    </div>
+  );
 
   if (!booking) {
     return (
-      <main className="min-h-screen bg-gray-50 p-8">
-        <div className="mx-auto max-w-xl text-center">
-          <h1 className="text-2xl font-bold">
-            Booking not found
-          </h1>
-
-          <p className="mt-3 text-gray-600">
-            We could not find the selected booking.
-          </p>
-
-          <a
-            href="/my-bookings"
-            className="mt-6 inline-block rounded-lg bg-black px-5 py-3 text-white"
-          >
-            Back to My Bookings
-          </a>
-        </div>
-      </main>
+      <>
+        <Navbar />
+        <main className="flex min-h-[70vh] items-center justify-center bg-cream px-6 py-12 text-center">
+          <div>
+            <h1 className="font-serif text-4xl italic text-ink">Booking not found</h1>
+            <p className="mt-3 text-muted">We couldn't find this booking.</p>
+            <Link to="/my-bookings" className="mt-6 inline-block rounded-full bg-clay px-6 py-3 font-medium text-white">
+              Back to my bookings
+            </Link>
+          </div>
+        </main>
+        <Footer />
+      </>
     );
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-8">
-      <div className="mx-auto max-w-3xl">
-        <a
-          href="/my-bookings"
-          className="text-sm text-gray-600 underline"
-        >
-          ← Back to My Bookings
-        </a>
+    <>
+      <Navbar />
 
-        <div className="mt-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <p className="text-sm text-gray-500">
-                Booking #{booking.id}
-              </p>
+      <main className="min-h-screen bg-cream px-6 py-10">
+        <div className="mx-auto max-w-3xl">
+          <Link to="/my-bookings" className="text-sm text-muted hover:text-clay">
+            ← Back to my bookings
+          </Link>
 
-              <h1 className="mt-2 text-2xl font-bold">
-                {booking.lesson}
-              </h1>
-
-              <p className="mt-2 text-gray-600">
-                With {booking.craftsperson}
-              </p>
+          <div className="mt-6 rounded-3xl bg-white p-6 md:p-8">
+            {/* Header */}
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <p className="text-sm text-muted">Booking #{booking.id}</p>
+                <h1 className="mt-1 font-serif text-4xl italic text-ink">{booking.lesson}</h1>
+                <p className="mt-2 text-muted">with {booking.craftsperson}</p>
+              </div>
+              <span className={`rounded-full px-3 py-1 text-sm font-medium ${statusStyles[status] || statusStyles.Pending}`}>
+                {status}
+              </span>
             </div>
 
-            <span
-              className={`rounded-full px-3 py-1 text-sm font-medium ${
-                statusStyles[status]
-              }`}
-            >
-              {status}
-            </span>
-          </div>
-
-          <div className="mt-6 border-t pt-6">
-            <h2 className="mb-4 text-lg font-semibold">
-              Booking information
-            </h2>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <p className="text-sm text-gray-500">
-                  Date
-                </p>
-                <p className="font-medium">
-                  {formatDate(booking.date)}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-sm text-gray-500">
-                  Time
-                </p>
-                <p className="font-medium">
-                  {booking.time}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-sm text-gray-500">
-                  Location
-                </p>
-                <p className="font-medium">
-                  {booking.location}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-sm text-gray-500">
-                  Total paid (demo)
-                </p>
-                <p className="font-medium">
-                  {booking.price} SAR
-                </p>
-              </div>
+            {/* Info boxes */}
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              <Info label="Date" value={formatDate(booking.date)} />
+              <Info label="Time" value={booking.time} />
+              <Info label="Location" value={booking.location} />
+              <Info label="Total paid (demo)" value={`${booking.price} SAR`} />
             </div>
-          </div>
 
-          <div className="mt-6 border-t pt-6">
-            <button
-              type="button"
-              onClick={() => setShowMore(!showMore)}
-              className="text-sm font-medium underline"
-            >
-              {showMore
-                ? "Hide booking information"
-                : "More booking information"}
-            </button>
+            {/* More info */}
+            <div className="mt-6">
+              <button
+                type="button"
+                onClick={() => setShowMore(!showMore)}
+                className="text-sm font-medium text-clay"
+              >
+                {showMore ? "Hide details ↑" : "More details ↓"}
+              </button>
 
-            {showMore && (
-              <div className="mt-4 rounded-lg bg-gray-50 p-4 text-sm text-gray-600">
-                <p>
-                  Booking reference: AN-{booking.id}
-                </p>
-                <p className="mt-2">
-                  Status: {status}
-                </p>
-                <p className="mt-2">
-                  This is a demonstration booking.
-                  No real payment was processed.
-                </p>
-              </div>
-            )}
-          </div>
+              {showMore && (
+                <div className="mt-3 space-y-1 rounded-2xl bg-cream p-4 text-sm text-muted">
+                  <p>Reference: AN-{booking.id}</p>
+                  <p>Status: {status}</p>
+                  <p>Demo booking. No real payment was processed.</p>
+                </div>
+              )}
+            </div>
 
-          <div className="mt-6 flex flex-wrap gap-3 border-t pt-6">
-            {["Pending", "Confirmed"].includes(status) &&
-              booking.canCancel && (
-                <a
-                  href={`/my-bookings/${booking.id}/cancel`}
-                  className="rounded-lg border border-red-300 px-5 py-3 text-sm font-medium text-red-600"
+            {/* Actions */}
+            <div className="mt-6 flex flex-wrap gap-3 border-t border-blush pt-6">
+              {status === "Completed" && (
+                <Link
+                  to={`/my-bookings/${booking.id}/review`}
+                  className="rounded-full bg-clay px-5 py-3 text-sm font-medium text-white hover:opacity-90"
                 >
-                  Cancel booking
-                </a>
+                  Write a review
+                </Link>
               )}
 
-            {status === "Completed" && (
-              <a
-                href={`/my-bookings/${booking.id}/review`}
-                className="rounded-lg bg-black px-5 py-3 text-sm font-medium text-white"
+              <Link
+                to="/my-bookings"
+                className="rounded-full border border-ink px-5 py-3 text-sm font-medium text-ink hover:bg-cream"
               >
-                Write a review
-              </a>
-            )}
+                My bookings
+              </Link>
 
-            <a
-              href="/my-bookings"
-              className="rounded-lg border border-gray-300 px-5 py-3 text-sm font-medium"
-            >
-              My Bookings
-            </a>
+              {["Pending", "Confirmed"].includes(status) && booking.canCancel && (
+                <Link
+                  to={`/my-bookings/${booking.id}/cancel`}
+                  className="rounded-full px-5 py-3 text-sm font-medium text-red-600 hover:bg-red-50"
+                >
+                  Cancel booking
+                </Link>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+
+      <Footer />
+    </>
   );
 }
 

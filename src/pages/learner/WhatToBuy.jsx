@@ -1,48 +1,14 @@
-
 import { useState } from "react";
-import Card from "../../components/Card";
+import { Link } from "react-router-dom";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 const starterItems = [
-  {
-    id: 1,
-    name: "Apron",
-    description: "Protects your clothes from wet clay.",
-    price: 40,
-    shopLink: true,
-    provided: false
-  },
-  {
-    id: 2,
-    name: "Small towel",
-    description: "Keeps your hands dry between steps.",
-    price: 15,
-    shopLink: false,
-    provided: false
-  },
-  {
-    id: 3,
-    name: "Trimming tool set",
-    description: "Used to shape and trim the base of your cup.",
-    price: 60,
-    shopLink: true,
-    provided: false
-  },
-  {
-    id: 4,
-    name: "Natural sponge",
-    description: "Smooths the surface while throwing.",
-    price: 10,
-    shopLink: false,
-    provided: false
-  },
-  {
-    id: 5,
-    name: "Clay (2 kg)",
-    description: "Provided by the craftsperson in your first lesson.",
-    price: 0,
-    shopLink: false,
-    provided: true
-  }
+  { id: 1, name: "Apron", description: "Protects your clothes from wet clay.", price: 40, shopLink: true, provided: false },
+  { id: 2, name: "Small towel", description: "Keeps your hands dry between steps.", price: 15, shopLink: false, provided: false },
+  { id: 3, name: "Trimming tool set", description: "Used to shape and trim the base of your cup.", price: 60, shopLink: true, provided: false },
+  { id: 4, name: "Natural sponge", description: "Smooths the surface while throwing.", price: 10, shopLink: false, provided: false },
+  { id: 5, name: "Clay (2 kg)", description: "Provided by the craftsperson in your first lesson.", price: 0, shopLink: false, provided: true },
 ];
 
 const STORAGE_KEY = "anamil-starter-checklist";
@@ -61,71 +27,58 @@ function WhatToBuy() {
     const nextItems = checkedItems.includes(id)
       ? checkedItems.filter((itemId) => itemId !== id)
       : [...checkedItems, id];
-
     setCheckedItems(nextItems);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(nextItems));
   };
 
-  const readyCount = starterItems.filter(
-    (item) => checkedItems.includes(item.id)
-  ).length;
-
+  const readyCount = starterItems.filter((item) => checkedItems.includes(item.id)).length;
   const progress = (readyCount / starterItems.length) * 100;
+
+  // Items the learner still needs to buy (not checked and not provided)
+  const missingTotal = starterItems
+    .filter((item) => !checkedItems.includes(item.id) && !item.provided)
+    .reduce((sum, item) => sum + item.price, 0);
 
   const booking = (() => {
     try {
-      return JSON.parse(
-        sessionStorage.getItem("pendingBooking") || "null"
-      );
+      return JSON.parse(sessionStorage.getItem("pendingBooking") || "null");
     } catch {
       return null;
     }
   })();
 
   const displayDate = booking?.date
-    ? new Date(`${booking.date}T12:00:00`).toLocaleDateString(
-        "en-GB",
-        {
-          day: "numeric",
-          month: "short",
-          year: "numeric"
-        }
-      )
+    ? new Date(`${booking.date}T12:00:00`).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })
     : "Date to be confirmed";
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-8">
-      <main className="mx-auto max-w-3xl">
-        <a
-          href="/lessons/1"
-          className="text-sm text-gray-600 underline"
-        >
-          ← Back to lesson
-        </a>
+    <>
+      <Navbar />
 
-        <h1 className="mt-6 text-3xl font-bold">
-          Before your first pottery lesson
-        </h1>
+      <main className="min-h-screen bg-cream px-6 py-10">
+        <div className="mx-auto max-w-3xl">
+          <Link to="/lessons/1" className="text-sm text-muted hover:text-clay">
+            ← Back to lesson
+          </Link>
 
-        <p className="mt-2 text-sm text-gray-600">
-          Wheel throwing for beginners · {displayDate}
-          {" "}with Noura Alqahtani
-        </p>
-
-        <div className="mt-6 mb-6">
-          <p className="mb-2 text-sm font-medium">
-            {readyCount} of {starterItems.length} items ready
+          <h1 className="mt-6 font-serif text-4xl italic text-ink">
+            Before your first <span className="text-clay">pottery</span> lesson
+          </h1>
+          <p className="mt-2 text-sm text-muted">
+            Wheel throwing for beginners · {displayDate} with Noura Alqahtani
           </p>
 
-          <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
-            <div
-              className="h-full bg-gray-900 transition-all"
-              style={{ width: `${progress}%` }}
-            />
+          {/* Progress */}
+          <div className="my-6">
+            <p className="mb-2 text-sm font-medium text-ink">
+              {readyCount} of {starterItems.length} items ready
+            </p>
+            <div className="h-2 w-full overflow-hidden rounded-full bg-blush">
+              <div className="h-full rounded-full bg-clay transition-all" style={{ width: `${progress}%` }} />
+            </div>
           </div>
-        </div>
 
-        <Card>
+          {/* Checklist */}
           <div className="space-y-3">
             {starterItems.map((item) => {
               const checked = checkedItems.includes(item.id);
@@ -133,49 +86,33 @@ function WhatToBuy() {
               return (
                 <div
                   key={item.id}
-                  className="flex flex-wrap items-center gap-4 rounded-lg border border-gray-200 bg-white p-4"
+                  className={`flex flex-wrap items-center gap-4 rounded-2xl border bg-white p-4 transition ${
+                    checked ? "border-clay" : "border-transparent"
+                  }`}
                 >
                   <label className="flex min-w-0 flex-1 cursor-pointer items-center gap-3">
                     <input
                       type="checkbox"
                       checked={checked}
                       onChange={() => toggleItem(item.id)}
-                      className="h-4 w-4 shrink-0 accent-black"
+                      className="h-5 w-5 shrink-0 accent-clay"
                     />
-
                     <span className="min-w-0">
-                      <span className="block font-medium">
+                      <span className={`block font-medium ${checked ? "text-muted line-through" : "text-ink"}`}>
                         {item.name}
                       </span>
-
-                      <span className="block text-xs text-gray-500">
-                        {item.description}
-                      </span>
+                      <span className="block text-xs text-muted">{item.description}</span>
                     </span>
                   </label>
 
                   <div className="ml-auto flex items-center gap-3">
                     {item.provided ? (
-                      <>
-                        <span className="text-xs text-gray-500">
-                          Included
-                        </span>
-
-                        <span className="rounded-full bg-gray-100 px-3 py-1 text-xs">
-                          Provided
-                        </span>
-                      </>
+                      <span className="rounded-full bg-blush px-3 py-1 text-xs text-clay">Provided</span>
                     ) : (
                       <>
-                        <span className="text-sm text-gray-600">
-                          ~{item.price} SAR
-                        </span>
-
+                        <span className="text-sm text-ink">~{item.price} SAR</span>
                         {item.shopLink && (
-                          <span
-                            className="text-xs text-gray-500 underline"
-                            title="Shop link coming soon"
-                          >
+                          <span className="text-xs text-clay" title="Shop link coming soon">
                             View in shop
                           </span>
                         )}
@@ -186,25 +123,32 @@ function WhatToBuy() {
               );
             })}
           </div>
-        </Card>
 
-        <p className="mt-5 text-xs text-gray-500">
-          Approximate prices are set by the craftsperson.
-          Items marked Provided are included in the lesson.
-          Shop links will be connected when product pages
-          are available.
-        </p>
+          <p className="mt-5 text-xs text-muted">
+            Tick the items you already have. Prices are approximate and set by the craftsperson.
+          </p>
 
-        <a
-          href="/lessons/1"
-          className="mt-7 block rounded-lg bg-black px-5 py-3 text-center font-medium text-white hover:bg-gray-800"
-        >
-          Back to Lesson Details
-        </a>
+          {/* Actions */}
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <Link
+              to="/cart"
+              className="flex-1 rounded-full bg-clay px-5 py-3 text-center font-medium text-white hover:opacity-90"
+            >
+              Add missing items to cart · {missingTotal} SAR
+            </Link>
+            <Link
+              to="/lessons/1"
+              className="flex-1 rounded-full border border-ink px-5 py-3 text-center font-medium text-ink hover:bg-white"
+            >
+              Back to lesson details
+            </Link>
+          </div>
+        </div>
       </main>
-    </div>
+
+      <Footer />
+    </>
   );
 }
 
 export default WhatToBuy;
-
