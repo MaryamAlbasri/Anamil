@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Button from "../components/Button";
-import Input from "../components/Input";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 // AI Assistance: ChatGPT helped implement this Reset Password
 // page with email validation and a simulated reset request.

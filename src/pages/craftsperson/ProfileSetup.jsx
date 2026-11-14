@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Input from "../components/Input";
-import Button from "../components/Button";
-import Sidebar from "../components/Sidebar";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
+import Sidebar from "../../components/Sidebar";
 
 // AI Assistance: ChatGPT helped implement the Craftsperson
 // Profile Setup page, including image validation,

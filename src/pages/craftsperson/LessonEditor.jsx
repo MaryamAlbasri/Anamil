@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Button from "../components/Button";
-import Input from "../components/Input";
-import Tag from "../components/Tag";
-import Sidebar from "../components/Sidebar";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
+import Tag from "../../components/Tag";
+import Sidebar from "../../components/Sidebar";
 import { craftspersonLinks } from "./ProfileSetup";
 
 // AI Assistance: ChatGPT helped implement the Lesson Editor,
