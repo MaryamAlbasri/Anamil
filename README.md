@@ -104,3 +104,13 @@ src/
   main.jsx       app entry (BrowserRouter + BookingProvider)
 public/images/   hobby photos, hero images and logo
 ```
+
+## Team
+
+| Member | Role | Area |
+|--------|------|------|
+| Maryam Albasri | Team lead, discovery and admin | Home, AI finder, Browse, teacher profile, How it works, About, admin pages, 404 |
+| Walaa | Accounts and craftsperson | Sign up, log in, password reset, craftsperson dashboard pages |
+| Hawra Alyousif | Learner flow | Lesson details and booking, payment, starter checklist, my bookings, cart, checkout and order pages |
+
+**Note on commit authors:** the commits authored as `Hawrza` (`s202363970@kfupm.edu.sa`) were made by Hawra Alyousif (GitHub: `Hawraza`). Her Git email was mistyped at the start, so GitHub did not link them to her account; commits from this point on are linked.
