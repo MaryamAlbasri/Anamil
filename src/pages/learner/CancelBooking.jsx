@@ -3,9 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import Modal from "../../components/Modal";
-import { getBookingById } from "../../data/bookings";
+import { useBookings } from "../../context/BookingContext.jsx";
 
-const CANCELLED_KEY = "anamil-cancelled-bookings";
 
 // Demo policy: cancellation is allowed more than 24 hours before the lesson starts.
 const canCancelBooking = (booking) => {
@@ -18,6 +17,9 @@ const canCancelBooking = (booking) => {
 };
 
 function CancelBooking() {
+  // AI Assistance: ChatGPT helped integrate shared booking state.
+  const { getBookingById, updateBookingStatus } = useBookings();
+
   const navigate = useNavigate();
   const location = useLocation();
   const bookingId = Number(location.pathname.split("/")[2]);
@@ -26,31 +28,26 @@ function CancelBooking() {
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [isCancelled, setIsCancelled] = useState(false);
 
-  const [alreadyCancelled] = useState(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem(CANCELLED_KEY) || "[]");
-      return Array.isArray(saved) ? saved.includes(bookingId) : false;
-    } catch {
-      return false;
-    }
-  });
 
-  const cancellationAllowed = booking && !alreadyCancelled && canCancelBooking(booking);
+
+// AI Assistance: ChatGPT helped use the shared cancellation status.
+  const alreadyCancelled = booking?.status === "Cancelled";
+  const cancellationAllowed = Boolean(booking) && canCancelBooking(booking);
 
   const handleBack = () => navigate("/my-bookings");
 
+  // AI Assistance: ChatGPT helped connect cancellation
+// to the shared BookingContext.
   const handleCancel = () => {
     if (!cancellationAllowed) return;
 
-    let saved = [];
-    try {
-      const stored = JSON.parse(localStorage.getItem(CANCELLED_KEY) || "[]");
-      saved = Array.isArray(stored) ? stored : [];
-    } catch {
-      saved = [];
+    const success = updateBookingStatus(bookingId, "Cancelled");
+
+    if (!success) {
+      alert("Unable to cancel this booking. Please try again.");
+      return;
     }
 
-    localStorage.setItem(CANCELLED_KEY, JSON.stringify([...new Set([...saved, bookingId])]));
     setIsCancelled(true);
     setIsModalOpen(false);
   };
