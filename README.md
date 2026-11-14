@@ -118,3 +118,10 @@ AI_USAGE.md       AI usage declaration for this phase
 | Hawra Alyousif | Learner flow | Lesson details and booking, payment, starter checklist, my bookings, cart, checkout and order pages |
 
 **Note on commit authors:** the commits authored as `Hawrza` (`s202363970@kfupm.edu.sa`) were made by Hawra Alyousif (GitHub: `Hawraza`). Her Git email was mistyped at the start, so GitHub did not link them to her account; commits from this point on are linked.
+## Design
+
+Figma prototype: https://www.figma.com/proto/iJKx4NI93wQk96RQJylJ7n/Anamil?node-id=139-384
+
+## Image credits
+
+Images generated with AI: hobby photos (Figma AI), hero slideshow images p1–p6 (Figma AI and ChatGPT), and the Anamil logo (ChatGPT). See AI_USAGE.md.
