@@ -1,7 +1,7 @@
 
 import { useState } from "react";
-import Button from "../components/Button";
-import Tag from "../components/Tag";
+import Button from "../../components/Button";
+import Tag from "../../components/Tag";
 
 // AI Assistance: ChatGPT helped implement the Orders page,
 // including mock orders, status updates, validation,

@@ -1,8 +1,8 @@
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../components/Button";
-import Input from "../components/Input";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
 
 // AI Assistance: ChatGPT helped implement this Login page,
 // including form validation, mock authentication,

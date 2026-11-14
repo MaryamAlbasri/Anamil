@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Button from "../components/Button";
-import Input from "../components/Input";
-import users from "../data/users";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
+import users from "../../data/users";
 
 // AI Assistance: ChatGPT helped implement the Sign Up form,
 // including React state, validation, and mock registration.

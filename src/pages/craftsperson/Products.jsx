@@ -1,8 +1,8 @@
 
 import { useState } from "react";
-import Button from "../components/Button";
-import Input from "../components/Input";
-import Tag from "../components/Tag";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
+import Tag from "../../components/Tag";
 
 // AI Assistance: ChatGPT helped implement product management,
 // including form validation, photo previews, editing,
